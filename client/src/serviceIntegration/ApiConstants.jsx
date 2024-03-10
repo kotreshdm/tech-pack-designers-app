@@ -12,7 +12,7 @@ const ApiConstants = {
     signOut: "/api/user/signout",
     updateUser: "/api/user/update/",
     delete: "/api/user/delete/",
-    listAllUsers: "",
+    listAllUsers: "/api/user/allusers",
   },
   category: {
     create: "",

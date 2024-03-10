@@ -12,11 +12,17 @@ import Dashboard from "./pages/Dashboard";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import CreatePost from "./pages/dashboard/CreatePost";
 import UpdatePost from "./pages/dashboard/UpdatePost";
-import UploadForm from "./UploadForm";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer
+        autoClose={10000}
+        position='top-right'
+        className='toast-container'
+        toastClassName='dark-toast'
+      />
       <Header />
       {/* <UploadForm /> */}
       <Routes>

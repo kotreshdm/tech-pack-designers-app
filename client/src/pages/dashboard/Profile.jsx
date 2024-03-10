@@ -55,7 +55,7 @@ export default function Profile() {
         const params = {
           ACL: "public-read",
           Body: imageFile,
-          Key: `profilePic/user-${currentUser.userId}.${fileType}`,
+          Key: `profilePic/user-${currentUser.userId}`,
         };
         const result = await MyBucket.putObject(params)
           .on("httpUploadProgress", (evt) => {
@@ -68,23 +68,24 @@ export default function Profile() {
         uploadData.profileImg = downloadURL;
       }
       if (Object.keys(uploadData).length === 0) {
-        setUpdateUserError("No changes made");
+        dispatch(signInFailure("No changes made"));
         return;
       }
       dispatch(updateStart());
-      await updateProfileAPI({ data: uploadData, userId: currentUser.userId })
-        .then((response) => {
-          if (response.status === 200) {
-            dispatch(updateSuccess(response.data));
-            setImageFile(null);
-            setImageFileUrl(null);
-            setImageFileUploadProgress(null);
-            setUpdateUserSuccess("User's profile updated successfully");
-          } else {
-            dispatch(updateFailure(response.message));
-          }
-        })
-        .catch((error) => dispatch(signInFailure("Plase try later")));
+      await updateProfileAPI({
+        data: uploadData,
+        userId: currentUser.userId,
+      }).then((response) => {
+        if (response.status === 200) {
+          dispatch(updateSuccess(response.data));
+          setImageFile(null);
+          setImageFileUrl(null);
+          setImageFileUploadProgress(null);
+          setUpdateUserSuccess("User's profile updated successfully");
+        } else {
+          dispatch(updateFailure(response.message));
+        }
+      });
     } catch (err) {
       console.error("Error uploading object:", err);
     }

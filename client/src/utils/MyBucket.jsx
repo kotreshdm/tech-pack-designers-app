@@ -1,6 +1,5 @@
 import AWS from "aws-sdk";
 import S3Constants from "../components/constants/S3Constants";
-
 const S3_BUCKET = S3Constants.S3_BUCKET;
 const REGION = S3Constants.REGION;
 const ACCESS_KEY = S3Constants.ACCESS_KEY;

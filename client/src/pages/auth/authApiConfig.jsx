@@ -17,10 +17,3 @@ export function signOutAPI() {
   };
   return RestAPIController(config);
 }
-export function deleteUserAPI(userId) {
-  let config = {
-    method: "DELETE",
-    url: ApiConstants.user.delete + userId,
-  };
-  return RestAPIController(config);
-}

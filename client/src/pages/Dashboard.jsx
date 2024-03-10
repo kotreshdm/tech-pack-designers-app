@@ -7,6 +7,7 @@ import DashPosts from "./dashboard/DashPosts";
 import { useSelector } from "react-redux";
 import { Unauthorized } from "../components/dashboard/Unauthorized";
 import AllUsers from "./dashboard/AllUsers";
+import DashboardContextWrapper from "../context/DashboardContext";
 
 function Dashboard() {
   const location = useLocation();
@@ -21,19 +22,29 @@ function Dashboard() {
   }, [location.search]);
   const isAdmin = currentUser && currentUser.isAdmin;
   return (
-    <div className='min-h-screen flex flex-col md:flex-row'>
-      <div className='md:w-56'>
-        <DashboardSidebar tab={tab} />
+    <DashboardContextWrapper>
+      <div className='min-h-screen flex flex-col md:flex-row'>
+        <div className='md:w-56'>
+          <DashboardSidebar tab={tab} />
+        </div>
+        {tab === "profile" ? <Profile /> : ""}
+        {tab === "users" ? isAdmin ? <AllUsers /> : <Unauthorized /> : ""}
+        {tab === "category" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
+        {/* ////////////////////////////////////////////// */}
+        {tab === "posts" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
+        {tab === "comments" ? (
+          isAdmin ? (
+            <DashComments />
+          ) : (
+            <Unauthorized />
+          )
+        ) : (
+          ""
+        )}
+        {tab === "dash" ? isAdmin ? <dash /> : <Unauthorized /> : ""}
+        {/* {tab === ("profile" || "category") ? "" : <Unauthorized />} */}
       </div>
-      {tab === "profile" ? <Profile /> : ""}
-      {tab === "category" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
-      {tab === "users" ? isAdmin ? <AllUsers /> : <Unauthorized /> : ""}
-      {/* ////////////////////////////////////////////// */}
-      {tab === "posts" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
-      {tab === "comments" ? isAdmin ? <DashComments /> : <Unauthorized /> : ""}
-      {tab === "dash" ? isAdmin ? <dash /> : <Unauthorized /> : ""}
-      {/* {tab === ("profile" || "category") ? "" : <Unauthorized />} */}
-    </div>
+    </DashboardContextWrapper>
   );
 }
 

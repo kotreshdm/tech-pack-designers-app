@@ -53,17 +53,14 @@ function SignIn() {
     if (signUpForm) {
       url = ApiConstants.user.signUp;
     }
-    await signInAPI({ data: formData, url })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          dispatch(signInSuccess(response.data));
-          navigate(returnUrl);
-        } else {
-          dispatch(signInFailure(response.message));
-        }
-      })
-      .catch((error) => dispatch(signInFailure("Plase try later")));
+    await signInAPI({ data: formData, url }).then((response) => {
+      if (response.status === 200) {
+        dispatch(signInSuccess(response.data));
+        navigate(returnUrl);
+      } else {
+        dispatch(signInFailure(response.message));
+      }
+    });
   };
   return (
     <div className='min-h-screen mt-20'>

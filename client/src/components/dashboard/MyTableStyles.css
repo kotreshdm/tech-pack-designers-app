@@ -1,6 +1,5 @@
 Table styles table {
   border-collapse: collapse;
-
   margin-bottom: 20px;
 }
 thead {
@@ -45,4 +44,42 @@ tr:nth-child(odd) {
   display: inline;
   padding: 0 5px;
   font-size: 24px;
+}
+
+.dark table {
+  background-color: aqua;
+}
+
+.dark th,
+.dark td {
+  border: 1px solid #7f7f8d;
+}
+
+.dark th {
+  background-color: #1f2937;
+}
+
+.dark tr:nth-child(even) {
+  background-color: #374151; /* Lighter color for even rows */
+}
+
+.dark tr:nth-child(odd) {
+  background-color: #374151; /* Default color for odd rows */
+}
+.action-buttons {
+  justify-content: center;
+  display: flex;
+}
+.action-buttons button {
+  display: inline;
+  padding: 0 5px;
+  font-size: 24px;
+}
+
+.pagination {
+  margin-bottom: 10px;
+}
+.table-header {
+  max-width: 90%;
+  margin: 5px auto;
 }

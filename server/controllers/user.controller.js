@@ -48,7 +48,6 @@ export const signup = async (req, res, next) => {
     return next(errorHandler(500, "Internal Server Error"));
   }
 };
-
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password || email === "" || password === "") {
@@ -98,7 +97,6 @@ export const signout = async (req, res) => {
     next(error);
   }
 };
-
 export const updateUser = async (req, res, next) => {
   const { password, userName, profileImg } = req.body;
   let hashPassword;
@@ -122,19 +120,19 @@ export const updateUser = async (req, res, next) => {
   res.status(200).json(rest);
 };
 export const deleteUser = async (req, res, next) => {
-  if (!req.user.isAdmin && req.user.userId !== req.params.userId) {
+  console.log(req.user.userId);
+  if (!req.user.isAdmin && req.user.userId.toString() !== req.params.userId) {
     return next(errorHandler(200, "You are not allowed to delete this user"));
   }
   const query = "DELETE FROM users WHERE userId = ?";
   db.query(query, [req.params.userId], (error) => {
     if (error) {
-      console.error("Error:", error);
+      return next(errorHandler(200, error));
     } else {
       res.status(200).json("User has been deleted");
     }
   });
 };
-
 function checkEmailExists(email) {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM users WHERE email = ?";
@@ -148,7 +146,6 @@ function checkEmailExists(email) {
     });
   });
 }
-
 function insertUser({ userName, email, password }) {
   return new Promise((resolve, reject) => {
     const query =
@@ -204,3 +201,17 @@ function updateExistingUser({ userId, password, userName, profileImg }) {
     });
   });
 }
+export const getAllUser = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    return next(errorHandler(200, "You are not allowed"));
+  }
+  const query = "SELECT * FROM users";
+  db.query(query, (error, result) => {
+    console.log(result);
+    if (error) {
+      return next(errorHandler(200, error));
+    } else {
+      res.status(200).json(result);
+    }
+  });
+};

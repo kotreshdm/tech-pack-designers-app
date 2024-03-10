@@ -7,8 +7,10 @@ import {
   signout,
   updateUser,
   deleteUser,
+  getAllUser,
 } from "../controllers/user.controller.js";
 
+router.get("/allusers", verifyToken, getAllUser);
 router.post("/sign-up", signup);
 router.post("/signin", signin);
 router.post("/signout", signout);
