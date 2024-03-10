@@ -120,7 +120,6 @@ export const updateUser = async (req, res, next) => {
   res.status(200).json(rest);
 };
 export const deleteUser = async (req, res, next) => {
-  console.log(req.user.userId);
   if (!req.user.isAdmin && req.user.userId.toString() !== req.params.userId) {
     return next(errorHandler(200, "You are not allowed to delete this user"));
   }
@@ -207,7 +206,6 @@ export const getAllUser = async (req, res, next) => {
   }
   const query = "SELECT * FROM users";
   db.query(query, (error, result) => {
-    console.log(result);
     if (error) {
       return next(errorHandler(200, error));
     } else {

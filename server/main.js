@@ -19,7 +19,7 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/user", userRoutes);
-app.use("/api/category", categoryRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));

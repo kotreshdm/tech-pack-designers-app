@@ -15,10 +15,10 @@ const ApiConstants = {
     listAllUsers: "/api/user/allusers",
   },
   category: {
-    create: "",
+    create: "/api/categories/create",
     update: "",
-    readAll: "",
-    delete: "",
+    readAll: "/api/categories/listAll",
+    delete: "/api/categories/delete/",
   },
   post: {
     create: "",

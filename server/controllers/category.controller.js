@@ -2,30 +2,29 @@ import { errorHandler } from "../utils/error.js";
 import db from "../utils/connection.js";
 
 export const create = async (req, res, next) => {
-  const { name, description, slug } = req.body;
-  let newName = name.trim();
+  const { name, description, slug, catBanner } = req.body;
   const createdBy = req.user.userId;
-  if (!name || newName === "") {
-    return next(errorHandler(400, "All fields are required"));
+  if (!name) {
+    return next(errorHandler(200, "All fields are required"));
   }
-
   try {
     // Check if the email already exists
     const isCategorylDuplicate = await checkCategoryExists(slug);
     if (isCategorylDuplicate) {
-      return res.status(400).json("Category already exists");
+      return next(errorHandler(200, "Category already exists"));
     }
     // Insert the new Category
     const user = await insertCategory({
-      name: newName,
+      name,
       description,
       slug,
       createdBy,
+      catBanner,
     });
     res.status(200).json("Category careated");
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json("Internal Server Error");
+    return next(errorHandler(200, error));
   }
 };
 
@@ -42,30 +41,32 @@ function checkCategoryExists(slug) {
   });
 }
 
-function insertCategory({ name, description, slug, createdBy }) {
+function insertCategory({ name, description, slug, catBanner, createdBy }) {
   return new Promise((resolve, reject) => {
     const query =
-      "INSERT INTO category (name, description, slug, createdBy) VALUES (?,?, ?, ?)";
-    db.query(query, [name, description, slug, createdBy], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(results);
+      "INSERT INTO category (name, description, slug,catBanner, createdBy) VALUES (?,?, ?, ?,?)";
+    db.query(
+      query,
+      [name, description, slug, catBanner, createdBy],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
       }
-    });
+    );
   });
 }
 
 export const deleteCtegory = async (req, res, next) => {
   if (!req.user.isAdmin) {
-    return next(
-      errorHandler(403, "You are not allowed to delete this Category")
-    );
+    return next(errorHandler(200, "You are not allowed to delete this user"));
   }
   const query = "DELETE FROM category WHERE categoryId = ?";
   db.query(query, [req.params.categoryId], (error, result) => {
     if (error) {
-      console.error("Error:", error);
+      return next(errorHandler(200, error));
     } else {
       if (result.affectedRows > 0) {
         res.status(200).json("Category has been deleted!");
@@ -79,9 +80,8 @@ export const deleteCtegory = async (req, res, next) => {
 export const listAll = async (req, res, next) => {
   const query = "Select * FROM category";
   db.query(query, (error, result) => {
-    console.log(result);
     if (error) {
-      console.error("Error:", error);
+      return next(errorHandler(200, error));
     } else {
       res.status(200).json(result);
     }

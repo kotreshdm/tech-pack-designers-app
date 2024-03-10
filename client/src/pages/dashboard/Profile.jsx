@@ -12,7 +12,7 @@ import {
 import { useDispatch } from "react-redux";
 import MyBucket from "../../utils/MyBucket";
 import S3Constants from "../../components/constants/S3Constants";
-import { updateProfileAPI } from "./apiConfig/Profile";
+import { updateProfileAPI } from "../../components/dashboard/apiConfig/Profile";
 
 export default function Profile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -30,7 +30,6 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
 
   const handleImageChange = (e) => {
-    console.log(imageFile);
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
@@ -51,7 +50,6 @@ export default function Profile() {
     let uploadData = { ...formData };
     try {
       if (imageFile) {
-        const fileType = imageFile.name.split(".").pop();
         const params = {
           ACL: "public-read",
           Body: imageFile,
@@ -87,7 +85,7 @@ export default function Profile() {
         }
       });
     } catch (err) {
-      console.error("Error uploading object:", err);
+      toast.error(err);
     }
   };
 

@@ -1,5 +1,7 @@
 // import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import { About } from "./pages/About";
 import SignIn from "./pages/auth/SignIn";
@@ -12,14 +14,12 @@ import Dashboard from "./pages/Dashboard";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
 import CreatePost from "./pages/dashboard/CreatePost";
 import UpdatePost from "./pages/dashboard/UpdatePost";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer
         autoClose={10000}
-        position='top-right'
+        position='bottom-left'
         className='toast-container'
         toastClassName='dark-toast'
       />

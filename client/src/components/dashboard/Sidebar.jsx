@@ -10,10 +10,17 @@ import {
   HiChartPie,
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { signOutAPI } from "../../pages/auth/authApiConfig";
 const DashboardSidebar = ({ tab }) => {
   const { currentUser } = useSelector((state) => state.user);
-
-  const handleSignout = () => {};
+  const handleSignout = async () => {
+    await signOutAPI().then((response) => {
+      if (response.status === 200) {
+        dispatch(resetState(response.data));
+        navigate(returnUrl);
+      }
+    });
+  };
   return (
     <Sidebar className='w-full md:w-56 min-h-screen fixed'>
       <Sidebar.Items>
@@ -40,7 +47,6 @@ const DashboardSidebar = ({ tab }) => {
               Profile
             </Sidebar.Item>
           </Link>
-
           {currentUser.isAdmin > 0 && (
             <>
               <Link to='/dashboard?tab=category'>

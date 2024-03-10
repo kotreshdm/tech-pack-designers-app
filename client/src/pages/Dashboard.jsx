@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { Unauthorized } from "../components/dashboard/Unauthorized";
 import AllUsers from "./dashboard/AllUsers";
 import DashboardContextWrapper from "../context/DashboardContext";
+import Category from "./dashboard/Category";
 
 function Dashboard() {
   const location = useLocation();
@@ -29,7 +30,7 @@ function Dashboard() {
         </div>
         {tab === "profile" ? <Profile /> : ""}
         {tab === "users" ? isAdmin ? <AllUsers /> : <Unauthorized /> : ""}
-        {tab === "category" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
+        {tab === "category" ? isAdmin ? <Category /> : <Unauthorized /> : ""}
         {/* ////////////////////////////////////////////// */}
         {tab === "posts" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
         {tab === "comments" ? (

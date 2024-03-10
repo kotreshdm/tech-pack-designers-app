@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MyTable from "../../components/dashboard/MyTable";
-import { deleteUserAPI, getAllUsersAPI } from "./apiConfig/AllUsers";
+
 import { useDashboardContext } from "../../context/DashboardContext";
 import DeleteModel from "../../components/dashboard/DeleteModel";
-import { Alert, Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import ViewUserModel from "../../components/dashboard/ViewUserModel";
 import { toast } from "react-toastify";
+import { deleteUserAPI } from "../../components/dashboard/apiConfig/AllUsers";
 
 const AllUsers = () => {
   const { allUserData, allUsersCurrentPageNo } = useDashboardContext();
@@ -15,7 +16,6 @@ const AllUsers = () => {
   const [viewData, setViewData] = useState(false);
   const [deleteData, setDeleteData] = useState(false);
   const [selectedData, setSelectedData] = useState({});
-  const [apiError, setApiError] = useState(null);
   useEffect(() => {
     if (allUsers.length === 0) {
       getAllUsers();
@@ -27,7 +27,7 @@ const AllUsers = () => {
       if (response.status === 200) {
         setAllUsers(response.data);
       } else {
-        console.log(response.message);
+        toast.error(response.message);
       }
     });
     setLoading(false);
@@ -45,7 +45,6 @@ const AllUsers = () => {
   };
   const handleDleteUser = async () => {
     await deleteUserAPI(selectedData.userId).then((response) => {
-      console.log(response);
       if (response.status === 200) {
         getAllUsers();
         toast.success(`${selectedData.userName} deleted successfully !!! `);
@@ -63,18 +62,6 @@ const AllUsers = () => {
 
   return (
     <div className='container grid grid-cols-1 gap-0'>
-      <div
-        className='container mx-auto'
-        style={{
-          maxWidth: "90%",
-        }}
-      >
-        {apiError && (
-          <Alert className='mt-5' color='failure'>
-            {apiError}
-          </Alert>
-        )}
-      </div>
       <div>
         <MyTable
           columns={columns}
