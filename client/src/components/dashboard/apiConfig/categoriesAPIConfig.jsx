@@ -16,8 +16,7 @@ export function deleteCategoryAPI(categoryId) {
   return RestAPIController(config);
 }
 
-export function addCategoryAPI({ data, url, method }) {
-  console.log(data, url);
+export function addEditCategoryAPI({ data, url, method }) {
   let config = {
     method,
     url,

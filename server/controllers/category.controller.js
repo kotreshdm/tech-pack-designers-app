@@ -89,13 +89,9 @@ export const listAll = async (req, res, next) => {
 };
 
 export const update = async (req, res, next) => {
-  const { name, description, slug, categoryId } = req.body;
-  let newName = name.trim();
-  const createdBy = req.user.userId;
-  if (!name || newName === "") {
-    return next(errorHandler(400, "All fields are required"));
-  }
+  const { name, description, slug, categoryId, catBanner } = req.body;
 
+  const createdBy = req.user.userId;
   try {
     // Check if the email already exists
     const isCategorylDuplicate = await checkCategoryExistsUpdate(
@@ -103,20 +99,21 @@ export const update = async (req, res, next) => {
       categoryId
     );
     if (isCategorylDuplicate) {
-      return res.status(400).json("Category already exists");
+      return next(errorHandler(200, "Category already exists"));
     }
     // Insert the new Category
     const user = await updateCategory({
       categoryId,
-      name: newName,
+      name,
       description,
       slug,
+      catBanner,
       createdBy,
     });
-    res.status(200).json("Category careated");
+    res.status(200).json("Category updated");
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json("Internal Server Error");
+    return next(errorHandler(200, error));
   }
 };
 
@@ -133,13 +130,28 @@ function checkCategoryExistsUpdate(slug, categoryId) {
   });
 }
 
-function updateCategory({ name, description, slug, createdBy, categoryId }) {
+function updateCategory({
+  name,
+  description,
+  slug,
+  createdBy,
+  categoryId,
+  catBanner,
+}) {
   return new Promise((resolve, reject) => {
-    const query =
-      "UPDATE category SET name = ?, description = ?, slug = ?, createdBy = ? WHERE categoryId = ?";
+    const query = `
+      UPDATE category
+      SET 
+      name = COALESCE(?, name),
+      description = COALESCE(?, description),
+      slug = COALESCE(?, slug),
+      createdBy = COALESCE(?, createdBy),
+      catBanner = COALESCE(?, catBanner)
+      WHERE categoryId = ?;
+    `;
     db.query(
       query,
-      [name, description, slug, createdBy, categoryId],
+      [name, description, slug, createdBy, catBanner, categoryId],
       (error, results) => {
         if (error) {
           reject(error);

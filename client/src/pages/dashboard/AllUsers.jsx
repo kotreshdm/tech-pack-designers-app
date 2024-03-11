@@ -6,7 +6,10 @@ import DeleteModel from "../../components/dashboard/DeleteModel";
 import { Modal } from "flowbite-react";
 import ViewUserModel from "../../components/dashboard/ViewUserModel";
 import { toast } from "react-toastify";
-import { deleteUserAPI } from "../../components/dashboard/apiConfig/AllUsers";
+import {
+  getAllUsersAPI,
+  deleteUserAPI,
+} from "../../components/dashboard/apiConfig/AllUsers";
 
 const AllUsers = () => {
   const { allUserData, allUsersCurrentPageNo } = useDashboardContext();
@@ -47,7 +50,7 @@ const AllUsers = () => {
     await deleteUserAPI(selectedData.userId).then((response) => {
       if (response.status === 200) {
         getAllUsers();
-        toast.success(`${selectedData.userName} deleted successfully !!! `);
+        toast.success(`${selectedData.userName} deleted successfully ! `);
       } else {
         toast.error(response.message.sqlMessage);
       }

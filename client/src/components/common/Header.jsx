@@ -1,6 +1,6 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -9,6 +9,7 @@ import { resetState } from "../../redux/user/userSlice";
 import { signOutAPI } from "../../pages/auth/authApiConfig";
 function Header() {
   const path = useLocation().pathname;
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +19,7 @@ function Header() {
     await signOutAPI().then((response) => {
       if (response.status === 200) {
         dispatch(resetState(response.data));
-        navigate(returnUrl);
+        navigate("/");
       }
     });
   };

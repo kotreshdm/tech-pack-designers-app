@@ -42,10 +42,11 @@ const Category = () => {
     { Header: "Description", accessor: "description" },
     { Header: "Slug", accessor: "slug" },
   ];
-  const addCategoryButton = (item) => {
+  const addCategoryButton = () => {
     setAddData(true);
+    setSelectedData({});
   };
-  const handleDelete = (item) => {
+  const deleteButton = (item) => {
     setDeleteData(true);
     setSelectedData(item);
   };
@@ -61,8 +62,12 @@ const Category = () => {
     });
     setSelectedData({});
   };
-  const handleView = (item) => {
+  const viewButton = (item) => {
     setViewData(true);
+    setSelectedData(item);
+  };
+  const editButton = (item) => {
+    setAddData(true);
     setSelectedData(item);
   };
   return (
@@ -73,8 +78,9 @@ const Category = () => {
           columns={columns}
           data={categories}
           loading={loading}
-          onDelete={handleDelete}
-          onView={handleView}
+          onDelete={deleteButton}
+          onEdit={editButton}
+          onView={viewButton}
           currentPage={categoryCurrentPage}
           setCurrentPage={setCategoryCurrentPage}
           tableHeader={"Categories"}
@@ -90,7 +96,7 @@ const Category = () => {
         <AddCategoryModel
           closeDialog={() => setAddData(false)}
           refreshAfterSuccess={getAllCategories}
-          // selected={selected}
+          selectedData={selectedData}
         />
       </Modal>
       <Modal

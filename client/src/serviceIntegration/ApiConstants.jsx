@@ -16,7 +16,7 @@ const ApiConstants = {
   },
   category: {
     create: "/api/categories/create",
-    update: "",
+    update: "/api/categories/update",
     readAll: "/api/categories/listAll",
     delete: "/api/categories/delete/",
   },

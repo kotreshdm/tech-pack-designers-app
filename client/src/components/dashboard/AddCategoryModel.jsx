@@ -1,13 +1,17 @@
-import { Button, Modal, Select, TextInput } from "flowbite-react";
-import ReactQuill from "react-quill";
 import React, { useRef, useState } from "react";
-import { addCategoryAPI } from "./apiConfig/categoriesAPIConfig";
 import { toast } from "react-toastify";
+import { CircularProgressbar } from "react-circular-progressbar";
+import ReactQuill from "react-quill";
+import { Button, Modal, TextInput } from "flowbite-react";
+import { addEditCategoryAPI } from "./apiConfig/categoriesAPIConfig";
 import ApiConstants from "../../serviceIntegration/ApiConstants";
 import MyBucket from "../../utils/MyBucket";
-import { CircularProgressbar } from "react-circular-progressbar";
 import S3Constants from "../constants/S3Constants";
-const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
+const AddCategoryModel = ({
+  closeDialog,
+  refreshAfterSuccess,
+  selectedData,
+}) => {
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
 
@@ -16,7 +20,6 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
   const [imageFileUrl, setImageFileUrl] = useState(null);
 
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
-  const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -27,13 +30,15 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     let data = { ...formData };
-    data.slug = formData.name
-      .split(" ")
-      .join("-")
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9-]/g, "");
+    if (formData.name) {
+      data.slug = formData.name
+        .split(" ")
+        .join("-")
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9-]/g, "");
+    }
 
     try {
       if (imageFile) {
@@ -60,13 +65,19 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
 
       let url = ApiConstants.category.create;
       let method = "POST";
-      await addCategoryAPI({
+      console.log(selectedData.categoryId);
+      if (selectedData.categoryId > -1) {
+        url = ApiConstants.category.update;
+        method = "PUT";
+        data.categoryId = selectedData.categoryId;
+      }
+      await addEditCategoryAPI({
         data,
         url,
         method,
       }).then((response) => {
         if (response.status === 200) {
-          toast.success(`${formData.name} is Categotry Created`);
+          toast.success(`${formData.name} is Categotry Updated`);
           refreshAfterSuccess();
           closeDialog();
           setImageFile(null);
@@ -84,7 +95,7 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
   return (
     <>
       <Modal.Header className='m-2 text-lg text-gray-500 dark:text-gray-400'>
-        Add Category
+        {selectedData.categoryId ? "Edit" : "Add"} Category
       </Modal.Header>
       <Modal.Body>
         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
@@ -95,6 +106,7 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
               required
               id='name'
               className='flex-1'
+              defaultValue={selectedData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
@@ -133,7 +145,7 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
               />
             )}
             <img
-              src={imageFileUrl}
+              src={imageFileUrl || selectedData.catBanner}
               alt='user'
               className={` w-full h-full object-cover border-4 border-[lightgray] ${
                 imageFileUploadProgress &&
@@ -142,15 +154,12 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
               }`}
             />
           </div>
-          {imageFileUploadError && (
-            <Alert color='failure'>{imageFileUploadError}</Alert>
-          )}
           <div>
             <ReactQuill
               theme='snow'
               placeholder='Category description...'
               className='h-40 mb-12'
-              value={formData.description}
+              defaultValue={selectedData.description}
               onChange={(value) => {
                 setFormData({ ...formData, description: value });
               }}
@@ -159,7 +168,7 @@ const AddCategoryModel = ({ closeDialog, selected, refreshAfterSuccess }) => {
           <div className={`grid grid-cols-2 gap-1`}>
             <Button onClick={closeDialog}>Close</Button>
             <Button type='submit' color='purple' disabled={loading}>
-              {selected?.categoryId > -1
+              {selectedData?.categoryId > -1
                 ? "Update Category"
                 : "Create New Category"}
             </Button>

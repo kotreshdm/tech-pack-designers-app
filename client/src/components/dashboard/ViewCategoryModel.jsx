@@ -10,8 +10,12 @@ const ViewCategoryModel = ({ closeModel, selectedData }) => {
         <div className=''>
           <div className='flex items-center'>
             <div className='mr-5'>
-              {selectedData.catImg && (
-                <img src={selectedData.catImg} alt='profilepic' width='100px' />
+              {selectedData.catBanner && (
+                <img
+                  src={selectedData.catBanner}
+                  alt='profilepic'
+                  width='100px'
+                />
               )}
             </div>
             <div>
