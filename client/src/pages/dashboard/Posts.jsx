@@ -11,7 +11,7 @@ import {
 import ViewCategoryModel from "../../components/dashboard/ViewCategoryModel";
 import AddCategoryModel from "../../components/dashboard/AddCategoryModel";
 
-const Category = () => {
+const Posts = () => {
   const { allCategories, categoryCurrentPageNo } = useDashboardContext();
   const [categories, setCategories] = allCategories;
   const [categoryCurrentPage, setCategoryCurrentPage] = categoryCurrentPageNo;
@@ -125,4 +125,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Posts;

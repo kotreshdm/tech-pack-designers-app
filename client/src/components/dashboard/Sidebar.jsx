@@ -8,6 +8,7 @@ import {
   HiOutlineUserGroup,
   HiAnnotation,
   HiChartPie,
+  HiOutlineViewGridAdd,
 } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { signOutAPI } from "../../pages/auth/authApiConfig";
@@ -58,6 +59,16 @@ const DashboardSidebar = ({ tab }) => {
                   Category
                 </Sidebar.Item>
               </Link>
+              <Link to='/dashboard?tab=posts'>
+                <Sidebar.Item
+                  active={tab === "posts"}
+                  icon={HiOutlineViewGridAdd}
+                  as='div'
+                >
+                  Posts
+                </Sidebar.Item>
+              </Link>
+
               <Link to='/dashboard?tab=users'>
                 <Sidebar.Item
                   active={tab === "users"}

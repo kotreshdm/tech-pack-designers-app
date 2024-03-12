@@ -3,7 +3,7 @@ import { errorHandler } from "./error.js";
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) {
-    return next(errorHandler(200, "Session expired re-login"));
+    return next(errorHandler(200, "Session expired logout and login again..."));
   }
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {

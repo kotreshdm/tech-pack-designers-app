@@ -76,7 +76,9 @@ const AddCategoryModel = ({
         method,
       }).then((response) => {
         if (response.status === 200) {
-          toast.success(`${formData.name} is Categotry Updated`);
+          toast.success(
+            `${formData.name || selectedData.name} is Categotry Updated`
+          );
           refreshAfterSuccess();
           closeDialog();
           setImageFile(null);

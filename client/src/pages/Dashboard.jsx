@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import DashboardContextWrapper from "../context/DashboardContext";
 import DashboardSidebar from "../components/dashboard/Sidebar";
 import Profile from "./dashboard/Profile";
-import DashComments from "./dashboard/DashComments";
-import DashPosts from "./dashboard/DashPosts";
-import { useSelector } from "react-redux";
-import { Unauthorized } from "../components/dashboard/Unauthorized";
-import AllUsers from "./dashboard/AllUsers";
-import DashboardContextWrapper from "../context/DashboardContext";
 import Category from "./dashboard/Category";
+import Posts from "./dashboard/Posts";
+import AllUsers from "./dashboard/AllUsers";
+
+import DashComments from "./dashboard/DashComments";
+import { Unauthorized } from "../components/dashboard/Unauthorized";
 
 function Dashboard() {
   const location = useLocation();
@@ -31,8 +32,8 @@ function Dashboard() {
         {tab === "profile" ? <Profile /> : ""}
         {tab === "users" ? isAdmin ? <AllUsers /> : <Unauthorized /> : ""}
         {tab === "category" ? isAdmin ? <Category /> : <Unauthorized /> : ""}
+        {tab === "posts" ? isAdmin ? <Posts /> : <Unauthorized /> : ""}
         {/* ////////////////////////////////////////////// */}
-        {tab === "posts" ? isAdmin ? <DashPosts /> : <Unauthorized /> : ""}
         {tab === "comments" ? (
           isAdmin ? (
             <DashComments />
