@@ -91,7 +91,7 @@ const Category = () => {
         show={addData}
         onClose={() => setAddData(false)}
         popup
-        class='m-auto w-3/4 mt-10 overflow-hidden'
+        className='m-auto w-3/4 mt-10 overflow-hidden'
       >
         <AddCategoryModel
           closeDialog={() => setAddData(false)}
@@ -103,7 +103,7 @@ const Category = () => {
         show={deleteData}
         onClose={() => setDeleteData(false)}
         popup
-        class='m-auto w-1/2 h-3/4'
+        className='m-auto w-1/2 h-3/4'
       >
         <DeleteModel
           handleSubmit={handleDletecategory}
@@ -114,7 +114,7 @@ const Category = () => {
         show={viewData}
         onClose={() => setViewData(false)}
         popup
-        class='m-auto w-1/2 h-3/4'
+        className='m-auto w-1/2 h-3/4'
       >
         <ViewCategoryModel
           selectedData={selectedData}

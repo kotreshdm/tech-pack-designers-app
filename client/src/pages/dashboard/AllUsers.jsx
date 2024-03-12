@@ -94,7 +94,7 @@ const AllUsers = () => {
         show={viewData}
         onClose={() => setViewData(false)}
         popup
-        class='m-auto w-1/2 h-3/4'
+        className='m-auto w-1/2 h-3/4'
       >
         <ViewUserModel
           selectedData={selectedData}

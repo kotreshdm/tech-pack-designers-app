@@ -65,7 +65,6 @@ const AddCategoryModel = ({
 
       let url = ApiConstants.category.create;
       let method = "POST";
-      console.log(selectedData.categoryId);
       if (selectedData.categoryId > -1) {
         url = ApiConstants.category.update;
         method = "PUT";

@@ -13,7 +13,7 @@ export const Unauthorized = () => {
 
   const back = useMoveBack();
   return (
-    <div class={styles.outerdiv}>
+    <div className={styles.outerdiv}>
       <div style={styles.innnerDiv}>
         <h1>Page not found Please contact admin 😢</h1>
         <Button
