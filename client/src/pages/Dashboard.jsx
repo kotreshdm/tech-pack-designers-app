@@ -25,14 +25,17 @@ function Dashboard() {
   const isAdmin = currentUser && currentUser.isAdmin;
   return (
     <DashboardContextWrapper>
-      <div className='min-h-screen flex flex-col md:flex-row'>
+      <div className='min-h-screen flex flex-col md:flex-row '>
         <div className='md:w-56'>
           <DashboardSidebar tab={tab} />
         </div>
-        {tab === "profile" ? <Profile /> : ""}
-        {tab === "users" ? isAdmin ? <AllUsers /> : <Unauthorized /> : ""}
-        {tab === "category" ? isAdmin ? <Category /> : <Unauthorized /> : ""}
-        {tab === "posts" ? isAdmin ? <Posts /> : <Unauthorized /> : ""}
+
+        <div className='md:w-full'>
+          {tab === "profile" ? <Profile /> : ""}
+          {tab === "users" ? isAdmin ? <AllUsers /> : <Unauthorized /> : ""}
+          {tab === "category" ? isAdmin ? <Category /> : <Unauthorized /> : ""}
+          {tab === "posts" ? isAdmin ? <Posts /> : <Unauthorized /> : ""}
+        </div>
         {/* ////////////////////////////////////////////// */}
         {tab === "comments" ? (
           isAdmin ? (

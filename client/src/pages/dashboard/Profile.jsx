@@ -90,7 +90,7 @@ export default function Profile() {
   };
 
   return (
-    <div className='max-w-lg mx-auto p-3 w-full'>
+    <div className='max-w-lg p-3 w-full m-auto'>
       <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
