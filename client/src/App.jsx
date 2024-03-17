@@ -13,6 +13,8 @@ import { PageNotFound } from "./pages/PageNotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
+import Constants from "./components/Constants";
+import Blog from "./pages/blog/Blog";
 // import CreatePost from "./pages/dashboard/CreatePost";
 // import UpdatePost from "./pages/dashboard/UpdatePost";
 function App() {
@@ -27,12 +29,14 @@ function App() {
       <Header />
       {/* <UploadForm /> */}
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/sign-in' element={<SignIn />} />
-        <Route path='/search' element={<Search />} />
+        <Route path={Constants.Navagation.home} element={<Home />} />
+        <Route path={Constants.Navagation.blog} element={<Blog />} />
+        <Route path={Constants.Navagation.signIn} element={<SignIn />} />
         <Route element={<PrivateRoute />}>
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route
+            path={Constants.Navagation.dashBoard}
+            element={<Dashboard />}
+          />
         </Route>
 
         <Route path='*' element={<PageNotFound />} />
