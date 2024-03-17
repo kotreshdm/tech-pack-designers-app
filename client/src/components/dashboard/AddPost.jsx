@@ -76,7 +76,9 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //setLoading(true);
-    let data = { ...formData };
+    let data = {
+      ...formData,
+    };
     if (formData.postName) {
       data.postSlug = formData.postName
         .split(" ")
@@ -92,16 +94,51 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
       method = "PUT";
       data.postId = selectedData.postId;
     }
+    if (bannerImage) {
+      const params = {
+        ACL: "public-read",
+        Body: bannerImage,
+        Key: `PostImage/${selectedData.postId
+          .toString()
+          .padStart(6, "0")}/bannerImage`,
+      };
+      const result = await MyBucket.putObject(params)
+        .on("httpUploadProgress", (evt) => {
+          return setBannerUploadProgress(
+            Math.round((evt.loaded / evt.total) * 100)
+          );
+        })
+        .promise();
+
+      const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
+      data.bannerImage = downloadURL;
+    }
+    if (socialImage) {
+      const params = {
+        ACL: "public-read",
+        Body: socialImage,
+        Key: `PostImage/${selectedData.postId
+          .toString()
+          .padStart(6, "0")}/socialImage`,
+      };
+      const result = await MyBucket.putObject(params)
+        .on("httpUploadProgress", (evt) => {
+          return setSocialUploadProgress(
+            Math.round((evt.loaded / evt.total) * 100)
+          );
+        })
+        .promise();
+
+      const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
+      data.socialImage = downloadURL;
+    }
+
     data.postDescription = quillRef.current.value;
     if (Object.keys(data).length === 0) {
       toast.error("No changes made");
       return;
     }
-    await addPostAPI({
-      data,
-      url,
-      method,
-    }).then((response) => {
+    await addPostAPI({ data, url, method }).then((response) => {
       if (response.status === 200) {
         refreshAfterAdd();
         toast.success(
@@ -141,15 +178,38 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
   const modules = {
     toolbar: {
       container: [
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [{ align: [] }],
-        [{ color: [] }, { background: [] }],
         [
-          { list: "ordered" },
-          { list: "bullet" },
-          { indent: "-1" },
-          { indent: "+1" },
+          {
+            header: [1, 2, 3, 4, 5, 6, false],
+          },
+        ],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [
+          {
+            align: [],
+          },
+        ],
+        [
+          {
+            color: [],
+          },
+          {
+            background: [],
+          },
+        ],
+        [
+          {
+            list: "ordered",
+          },
+          {
+            list: "bullet",
+          },
+          {
+            indent: "-1",
+          },
+          {
+            indent: "+1",
+          },
         ],
         ["link", "image", "video"],
         ["clean"],
@@ -186,11 +246,8 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
     "align",
   ];
   const handleChange = (value) => {
-    // if (quillRef.current) {
-    //   console.log("quillRef value:", quillRef.current.value);
-    // } else {
-    //   console.error("quillRef is null");
-    // }
+    // if (quillRef.current) {   console.log("quillRef value:",
+    // quillRef.current.value); } else {   console.error("quillRef is null"); }
   };
   return (
     <div className='container mx-auto'>
@@ -216,7 +273,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                 id='postName'
                 defaultValue={selectedData.postName}
                 onChange={(e) =>
-                  setFormData({ ...formData, postName: e.target.value })
+                  setFormData({
+                    ...formData,
+                    postName: e.target.value,
+                  })
                 }
               />
             </div>
@@ -224,7 +284,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
               <label value={-1}>Select category</label>
               <Select
                 onChange={(e) =>
-                  setFormData({ ...formData, categoryId: e.target.value })
+                  setFormData({
+                    ...formData,
+                    categoryId: e.target.value,
+                  })
                 }
                 value={selectedData.categoryId}
               >
@@ -245,7 +308,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                 id='SEOTitle'
                 defaultValue={selectedData.SEOTitle}
                 onChange={(e) =>
-                  setFormData({ ...formData, SEOTitle: e.target.value })
+                  setFormData({
+                    ...formData,
+                    SEOTitle: e.target.value,
+                  })
                 }
               />
             </div>
@@ -257,7 +323,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                 id='SEODescription'
                 defaultValue={selectedData.SEODescription}
                 onChange={(e) =>
-                  setFormData({ ...formData, SEODescription: e.target.value })
+                  setFormData({
+                    ...formData,
+                    SEODescription: e.target.value,
+                  })
                 }
               />
             </div>
@@ -269,13 +338,17 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                 id='SEOKeywords'
                 defaultValue={selectedData.SEOKeywords}
                 onChange={(e) =>
-                  setFormData({ ...formData, SEOKeywords: e.target.value })
+                  setFormData({
+                    ...formData,
+                    SEOKeywords: e.target.value,
+                  })
                 }
               />
             </div>
           </div>
           {selectedData.postId ? (
             <>
+              {" "}
               <div className='grid grid-cols-4 gap-4'>
                 <div className=' mt-3'>
                   <label>Post Banner</label>
@@ -333,8 +406,9 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     />
                   </div>
                 </div>
-              </div>
+              </div>{" "}
               <div className='grid grid-cols-1 gap-4 mt-5 mb-10'>
+                {" "}
                 <ReactQuill
                   ref={quillRef}
                   defaultValue={selectedData.postDescription}
@@ -348,7 +422,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     maxWidth: "800px",
                     marginBottom: "30px",
                   }}
-                />
+                />{" "}
               </div>
             </>
           ) : null}

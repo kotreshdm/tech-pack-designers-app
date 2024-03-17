@@ -118,15 +118,7 @@ export const listAll = async (req, res, next) => {
 };
 
 export const update = async (req, res, next) => {
-  const {
-    postName,
-    postSlug,
-    SEOTitle,
-    SEODescription,
-    SEOKeywords,
-    postId,
-    postDescription,
-  } = req.body;
+  const { postSlug, postId } = req.body;
   const updatedBy = req.user.userId;
 
   try {
@@ -136,16 +128,7 @@ export const update = async (req, res, next) => {
       return next(errorHandler(200, "Category already exists"));
     }
     // Insert the new Category
-    const user = await updatepost({
-      postName,
-      postSlug,
-      SEOTitle,
-      SEODescription,
-      SEOKeywords,
-      postId,
-      updatedBy,
-      postDescription,
-    });
+    const user = await updatepost({ ...req.body, updatedBy });
     res.status(200).json("Category updated");
   } catch (error) {
     console.error("Error:", error);
@@ -171,9 +154,11 @@ function updatepost({
   postName,
   postSlug,
   SEOTitle,
+  postDescription,
   SEODescription,
   SEOKeywords,
-  postDescription,
+  bannerImage,
+  socialImage,
   postId,
   updatedBy,
 }) {
@@ -187,6 +172,8 @@ function updatepost({
       SEOTitle = COALESCE(?, SEOTitle),
       SEODescription = COALESCE(?, SEODescription),
       SEOKeywords = COALESCE(?, SEOKeywords),
+      bannerImage = COALESCE(?, bannerImage),
+      socialImage = COALESCE(?, socialImage),
       updatedBy = COALESCE(?, updatedBy)
       WHERE postId = ?;
     `;
@@ -199,6 +186,8 @@ function updatepost({
         SEOTitle,
         SEODescription,
         SEOKeywords,
+        bannerImage,
+        socialImage,
         updatedBy,
         postId,
       ],
