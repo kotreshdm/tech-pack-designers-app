@@ -1,9 +1,9 @@
 import AWS from "aws-sdk";
-import S3Constants from "../components/constants/S3Constants";
-const S3_BUCKET = S3Constants.S3_BUCKET;
-const REGION = S3Constants.REGION;
-const ACCESS_KEY = S3Constants.ACCESS_KEY;
-const SECRET_ACCESS_KEY = S3Constants.SECRET_ACCESS_KEY;
+import Constants from "../components/Constants";
+const S3_BUCKET = Constants.S3.S3_BUCKET;
+const REGION = Constants.S3.REGION;
+const ACCESS_KEY = Constants.S3.ACCESS_KEY;
+const SECRET_ACCESS_KEY = Constants.S3.SECRET_ACCESS_KEY;
 
 AWS.config.update({
   accessKeyId: ACCESS_KEY,

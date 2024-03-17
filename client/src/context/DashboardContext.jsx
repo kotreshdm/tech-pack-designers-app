@@ -5,16 +5,20 @@ const DashboardContextWrapper = ({ children }) => {
   const [pageSize, setPageSize] = useState(10);
   const [allUsers, setAllUsers] = useState([]);
   const [allUsersCurrentPage, setAllUsersCurrentPage] = useState(1);
-  const [categoryCurrentPage, setCategoryCurrentPage] = useState(1);
   const [categories, setCategories] = useState([]);
+  const [categoryCurrentPage, setCategoryCurrentPage] = useState(1);
+  const [posts, setPosts] = useState([]);
+  const [postsCurrentPage, setPostsCurrentPage] = useState(1);
   return (
     <DashboardContext.Provider
       value={{
+        perPageRecords: [pageSize, setPageSize],
         allUserData: [allUsers, setAllUsers],
         allUsersCurrentPageNo: [allUsersCurrentPage, setAllUsersCurrentPage],
-        perPageRecords: [pageSize, setPageSize],
         allCategories: [categories, setCategories],
         categoryCurrentPageNo: [categoryCurrentPage, setCategoryCurrentPage],
+        allPosts: [posts, setPosts],
+        postCurrentPageNo: [postsCurrentPage, setPostsCurrentPage],
       }}
     >
       {children}

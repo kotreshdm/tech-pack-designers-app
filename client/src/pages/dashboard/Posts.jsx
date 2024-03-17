@@ -10,26 +10,27 @@ import {
 } from "../../components/dashboard/apiConfig/categoriesAPIConfig";
 import ViewCategoryModel from "../../components/dashboard/ViewCategoryModel";
 import AddCategoryModel from "../../components/dashboard/AddCategoryModel";
+import { getAllPostsAPI } from "../../components/dashboard/apiConfig/postsAPIConfig";
 
-const Posts = () => {
-  const { allCategories, categoryCurrentPageNo } = useDashboardContext();
-  const [categories, setCategories] = allCategories;
-  const [categoryCurrentPage, setCategoryCurrentPage] = categoryCurrentPageNo;
+const Category = () => {
+  const { allPosts, postCurrentPageNo } = useDashboardContext();
+  const [posts, setPosts] = allPosts;
+  const [postsCurrentPage, setPostsCurrentPage] = postCurrentPageNo;
   const [loading, setLoading] = useState(false);
   const [addData, setAddData] = useState(false);
   const [viewData, setViewData] = useState(false);
   const [deleteData, setDeleteData] = useState(false);
   const [selectedData, setSelectedData] = useState({});
   useEffect(() => {
-    if (categories.length === 0) {
-      getAllCategories();
+    if (posts.length === 0) {
+      getAllPosts();
     }
   }, []);
-  const getAllCategories = async () => {
+  const getAllPosts = async () => {
     setLoading(true);
-    await getAllCategoriesAPI().then((response) => {
+    await getAllPostsAPI().then((response) => {
       if (response.status === 200) {
-        setCategories(response.data);
+        setPosts(response.data);
       } else {
         toast.error(response.message);
       }
@@ -76,53 +77,19 @@ const Posts = () => {
         <MyTable
           addNewRecord={addCategoryButton}
           columns={columns}
-          data={categories}
+          data={posts}
           loading={loading}
           onDelete={deleteButton}
           onEdit={editButton}
           onView={viewButton}
-          currentPage={categoryCurrentPage}
-          setCurrentPage={setCategoryCurrentPage}
-          tableHeader={"Categories"}
-          refreshData={getAllCategories}
+          currentPage={postsCurrentPage}
+          setCurrentPage={setPostsCurrentPage}
+          tableHeader={"Posts"}
+          refreshData={getAllPosts}
         />
       </div>
-      <Modal
-        show={addData}
-        onClose={() => setAddData(false)}
-        popup
-        className='m-auto'
-      >
-        <AddCategoryModel
-          closeDialog={() => setAddData(false)}
-          refreshAfterSuccess={getAllCategories}
-          selectedData={selectedData}
-        />
-      </Modal>
-      <Modal
-        show={deleteData}
-        onClose={() => setDeleteData(false)}
-        popup
-        className='m-auto'
-      >
-        <DeleteModel
-          handleSubmit={handleDletecategory}
-          closeModel={() => setDeleteData(false)}
-        />
-      </Modal>
-      <Modal
-        show={viewData}
-        onClose={() => setViewData(false)}
-        popup
-        className='m-auto'
-      >
-        <ViewCategoryModel
-          selectedData={selectedData}
-          closeModel={() => setViewData(false)}
-        />
-      </Modal>
     </div>
   );
 };
 
-export default Posts;
+export default Category;

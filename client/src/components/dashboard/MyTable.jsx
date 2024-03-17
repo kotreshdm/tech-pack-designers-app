@@ -66,7 +66,6 @@ const MyTable = ({
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   <th style={{ width: "100px" }}>SL No</th>
-
                   {headerGroup.headers.map((column) => (
                     <th style={{ width: "100px" }} {...column.getHeaderProps()}>
                       {column.render("Header")}
@@ -95,24 +94,22 @@ const MyTable = ({
                             {cell.render("Cell")}
                           </td>
                         ))}
-                        <td>
-                          <div className='action-buttons'>
-                            {onView && (
-                              <button onClick={() => onView(row.original)}>
-                                <AiOutlineFolderView />
-                              </button>
-                            )}
-                            {onEdit && (
-                              <button onClick={() => onEdit(row.original)}>
-                                <LiaEdit />
-                              </button>
-                            )}
-                            {onDelete && (
-                              <button onClick={() => onDelete(row.original)}>
-                                <MdDeleteForever />
-                              </button>
-                            )}
-                          </div>
+                        <td className='action-buttons'>
+                          {onView && (
+                            <button onClick={() => onView(row.original)}>
+                              <AiOutlineFolderView />
+                            </button>
+                          )}
+                          {onEdit && (
+                            <button onClick={() => onEdit(row.original)}>
+                              <LiaEdit />
+                            </button>
+                          )}
+                          {onDelete && (
+                            <button onClick={() => onDelete(row.original)}>
+                              <MdDeleteForever />
+                            </button>
+                          )}
                         </td>
                       </tr>
                     );

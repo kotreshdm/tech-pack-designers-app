@@ -11,7 +11,7 @@ import {
 } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import MyBucket from "../../utils/MyBucket";
-import S3Constants from "../../components/constants/S3Constants";
+import Constants from "../../components/Constants";
 import { updateProfileAPI } from "../../components/dashboard/apiConfig/Profile";
 
 export default function Profile() {
@@ -62,7 +62,7 @@ export default function Profile() {
             );
           })
           .promise();
-        const downloadURL = `https://${S3Constants.S3_BUCKET}.s3.${S3Constants.REGION}.amazonaws.com/${params.Key}`;
+        const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
         uploadData.profileImg = downloadURL;
       }
       if (Object.keys(uploadData).length === 0) {

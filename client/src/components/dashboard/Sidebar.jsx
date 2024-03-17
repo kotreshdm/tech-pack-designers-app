@@ -78,7 +78,7 @@ const DashboardSidebar = ({ tab }) => {
                   Users
                 </Sidebar.Item>
               </Link>
-              <Link to='/dashboard?tab=comments'>
+              {/* <Link to='/dashboard?tab=comments'>
                 <Sidebar.Item
                   active={tab === "comments"}
                   icon={HiAnnotation}
@@ -86,7 +86,7 @@ const DashboardSidebar = ({ tab }) => {
                 >
                   Comments
                 </Sidebar.Item>
-              </Link>
+              </Link> */}
             </>
           )}
           <Sidebar.Item

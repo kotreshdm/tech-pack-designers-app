@@ -6,7 +6,7 @@ import { Button, Modal, TextInput } from "flowbite-react";
 import { addEditCategoryAPI } from "./apiConfig/categoriesAPIConfig";
 import ApiConstants from "../../serviceIntegration/ApiConstants";
 import MyBucket from "../../utils/MyBucket";
-import S3Constants from "../constants/S3Constants";
+import Constants from "../Constants";
 const AddCategoryModel = ({
   closeDialog,
   refreshAfterSuccess,
@@ -55,7 +55,7 @@ const AddCategoryModel = ({
           })
           .promise();
 
-        const downloadURL = `https://${S3Constants.S3_BUCKET}.s3.${S3Constants.REGION}.amazonaws.com/${params.Key}`;
+        const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
         data.catBanner = downloadURL;
       }
       if (Object.keys(data).length === 0) {
@@ -146,7 +146,11 @@ const AddCategoryModel = ({
               />
             )}
             <img
-              src={imageFileUrl || selectedData.catBanner}
+              src={
+                imageFileUrl ||
+                selectedData.catBanner ||
+                "https://placehold.co/600x400"
+              }
               alt='user'
               className={` w-full h-full object-cover border-4 border-[lightgray] ${
                 imageFileUploadProgress &&

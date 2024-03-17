@@ -8,7 +8,6 @@ import Category from "./dashboard/Category";
 import Posts from "./dashboard/Posts";
 import AllUsers from "./dashboard/AllUsers";
 
-import DashComments from "./dashboard/DashComments";
 import { Unauthorized } from "../components/dashboard/Unauthorized";
 
 function Dashboard() {
@@ -36,18 +35,6 @@ function Dashboard() {
           {tab === "category" ? isAdmin ? <Category /> : <Unauthorized /> : ""}
           {tab === "posts" ? isAdmin ? <Posts /> : <Unauthorized /> : ""}
         </div>
-        {/* ////////////////////////////////////////////// */}
-        {tab === "comments" ? (
-          isAdmin ? (
-            <DashComments />
-          ) : (
-            <Unauthorized />
-          )
-        ) : (
-          ""
-        )}
-        {tab === "dash" ? isAdmin ? <dash /> : <Unauthorized /> : ""}
-        {/* {tab === ("profile" || "category") ? "" : <Unauthorized />} */}
       </div>
     </DashboardContextWrapper>
   );

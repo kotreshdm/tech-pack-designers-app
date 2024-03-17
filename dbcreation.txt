@@ -24,19 +24,18 @@ CREATE TABLE category (
     FOREIGN KEY (createdBy) REFERENCES users(userID)
 );
 
-
 CREATE TABLE posts (
-    postId INT PRIMARY KEYs,
-    name VARCHAR(50) NOT NULL,
-    slug VARCHAR(250),
-    description TEXT,    
+    postId INT PRIMARY KEY,
+    postName VARCHAR(50) NOT NULL,
+    postSlug VARCHAR(250),
+    postDescription VARCHAR(255),    
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    postImg1 VARCHAR(255),
-    seoTitle VARCHAR(255),
-    seoDescription VARCHAR(255),
-    seoKeywords VARCHAR(255),
-    socialImg VARCHAR(255),
+    postPoster VARCHAR(255),
+    SEOTitle VARCHAR(255),
+    SEODescription VARCHAR(255),
+    SEOKeywords VARCHAR(255),
+    SEOImage VARCHAR(255),
     categoryId INT,
     FOREIGN KEY (categoryId) REFERENCES category(categoryId),
     createdBy INT,
@@ -44,3 +43,4 @@ CREATE TABLE posts (
     updatedBy INT,
     FOREIGN KEY (updatedBy) REFERENCES users(userID)
 );
+postId	postName	postSlug	postDescription	createdAt	updatedAt	postPoster	SEOTitle	SEODescription	SEOKeywords	SEOImage	categoryId	createdBy	updatedBy	

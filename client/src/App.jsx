@@ -2,6 +2,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-quill/dist/quill.snow.css";
 import Home from "./pages/Home";
 import { About } from "./pages/About";
 import SignIn from "./pages/auth/SignIn";
@@ -12,8 +13,8 @@ import { PageNotFound } from "./pages/PageNotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
-import CreatePost from "./pages/dashboard/CreatePost";
-import UpdatePost from "./pages/dashboard/UpdatePost";
+// import CreatePost from "./pages/dashboard/CreatePost";
+// import UpdatePost from "./pages/dashboard/UpdatePost";
 function App() {
   return (
     <BrowserRouter>
@@ -33,10 +34,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>
-        <Route element={<OnlyAdminPrivateRoute />}>
-          <Route path='/create-post' element={<CreatePost />} />
-          <Route path='/update-post/:postId' element={<UpdatePost />} />
-        </Route>
+
         <Route path='*' element={<PageNotFound />} />
       </Routes>
       <Footer />
