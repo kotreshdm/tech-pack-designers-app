@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-import Constants from "./Constants";
+import Constants from "../utils/Constants";
 
 function PrivateRoute() {
   const { currentUser } = useSelector((store) => store.user);

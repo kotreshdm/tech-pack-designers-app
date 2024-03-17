@@ -13,7 +13,7 @@ import { PageNotFound } from "./pages/PageNotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
-import Constants from "./components/Constants";
+import Constants from "./utils/Constants";
 import Blog from "./pages/blog/Blog";
 // import CreatePost from "./pages/dashboard/CreatePost";
 // import UpdatePost from "./pages/dashboard/UpdatePost";

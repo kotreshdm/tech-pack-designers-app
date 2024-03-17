@@ -84,6 +84,7 @@ const Posts = () => {
           selectedData={selectedData}
           backToPost={() => setIsAddEditPost(false)}
           refreshAfterAdd={getAllPosts}
+          content={"Test"}
         />
       ) : (
         <>

@@ -118,8 +118,15 @@ export const listAll = async (req, res, next) => {
 };
 
 export const update = async (req, res, next) => {
-  const { postName, postSlug, SEOTitle, SEODescription, SEOKeywords, postId } =
-    req.body;
+  const {
+    postName,
+    postSlug,
+    SEOTitle,
+    SEODescription,
+    SEOKeywords,
+    postId,
+    postDescription,
+  } = req.body;
   const updatedBy = req.user.userId;
 
   try {
@@ -137,6 +144,7 @@ export const update = async (req, res, next) => {
       SEOKeywords,
       postId,
       updatedBy,
+      postDescription,
     });
     res.status(200).json("Category updated");
   } catch (error) {
@@ -165,6 +173,7 @@ function updatepost({
   SEOTitle,
   SEODescription,
   SEOKeywords,
+  postDescription,
   postId,
   updatedBy,
 }) {
@@ -174,6 +183,7 @@ function updatepost({
       SET 
       postName = COALESCE(?, postName),
       postSlug = COALESCE(?, postSlug),
+      postDescription = COALESCE(?, postDescription),
       SEOTitle = COALESCE(?, SEOTitle),
       SEODescription = COALESCE(?, SEODescription),
       SEOKeywords = COALESCE(?, SEOKeywords),
@@ -185,6 +195,7 @@ function updatepost({
       [
         postName,
         postSlug,
+        postDescription,
         SEOTitle,
         SEODescription,
         SEOKeywords,

@@ -3,7 +3,7 @@ import ReactQuill, { Quill } from "react-quill";
 
 import ImageResize from "quill-image-resize-module-react";
 import MyBucket from "../../utils/MyBucket";
-import Constants from "../../components/Constants";
+import Constants from "../../utils/Constants";
 Quill.register("modules/imageResize", ImageResize);
 
 function QuillEditor(props) {

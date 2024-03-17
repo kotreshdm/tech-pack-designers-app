@@ -6,7 +6,7 @@ import { Button, Modal, TextInput } from "flowbite-react";
 import { addEditCategoryAPI } from "./apiConfig/categoriesAPIConfig";
 import ApiConstants from "../../serviceIntegration/ApiConstants";
 import MyBucket from "../../utils/MyBucket";
-import Constants from "../Constants";
+import Constants from "../../utils/Constants";
 const AddCategoryModel = ({
   closeDialog,
   refreshAfterSuccess,

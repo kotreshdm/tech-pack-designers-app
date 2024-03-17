@@ -11,7 +11,7 @@ import {
 } from "../../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import MyBucket from "../../utils/MyBucket";
-import Constants from "../../components/Constants";
+import Constants from "../../utils/Constants";
 import { updateProfileAPI } from "../../components/dashboard/apiConfig/Profile";
 
 export default function Profile() {
