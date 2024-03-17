@@ -9,6 +9,7 @@ const Constants = {
     blog: "/blog",
     contactUs: "/contact",
     signIn: "/sign-in",
+    dashBoard: "/dashboard",
   },
   S3: {
     S3_BUCKET: import.meta.env.VITE_S3_BUCKET,

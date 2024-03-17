@@ -7,6 +7,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleTheme } from "../../redux/theme/themeSlice";
 import { resetState } from "../../redux/user/userSlice";
 import { signOutAPI } from "../../pages/auth/authApiConfig";
+import Constants from "../Constants";
 function Header() {
   const path = useLocation().pathname;
   const navigate = useNavigate();
@@ -27,7 +28,11 @@ function Header() {
   const navMenu = [
     {
       label: "Home",
-      url: "/",
+      url: Constants.Navagation.home,
+    },
+    {
+      label: "Blog",
+      url: Constants.Navagation.blog,
     },
   ];
   const handleSubmit = () => {};

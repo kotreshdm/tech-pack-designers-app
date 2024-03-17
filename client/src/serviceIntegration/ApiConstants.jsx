@@ -21,11 +21,11 @@ const ApiConstants = {
     delete: "/api/categories/delete/",
   },
   post: {
-    create: "",
-    update: "",
-    readAll: "",
-    readOne: "",
-    delete: "",
+    create: "/api/posts/create",
+    update: "/api/posts/update",
+    readAll: "/api/posts/listAll",
+    delete: "/api/posts/delete/",
+    readOne: "/api/posts/getPost/",
   },
 };
 
