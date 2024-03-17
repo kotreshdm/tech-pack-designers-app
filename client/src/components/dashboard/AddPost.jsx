@@ -348,7 +348,6 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
           </div>
           {selectedData.postId ? (
             <>
-              {" "}
               <div className='grid grid-cols-4 gap-4'>
                 <div className=' mt-3'>
                   <label>Post Banner</label>
@@ -366,7 +365,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     <img
                       src={
                         bannerImageUrl ||
-                        selectedData.bannerImageUrl ||
+                        selectedData.bannerImage ||
                         "https://placehold.co/300x200"
                       }
                       alt='user'
@@ -394,7 +393,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     <img
                       src={
                         socialImageUrl ||
-                        selectedData.socialImageUrl ||
+                        selectedData.socialImage ||
                         "https://placehold.co/300x200"
                       }
                       alt='user'
