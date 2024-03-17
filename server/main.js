@@ -5,6 +5,7 @@ import morgan from "morgan";
 //All router
 import userRoutes from "./routes/user.route.js";
 import categoryRoutes from "./routes/category.route.js";
+import postRoutes from "./routes/post.route.js";
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,7 @@ app.listen(PORT, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/posts", postRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));

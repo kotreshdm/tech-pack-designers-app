@@ -4,19 +4,19 @@ import RestAPIController from "../../../serviceIntegration/RestAPIController";
 export function getAllPostsAPI() {
   let config = {
     method: "GET",
-    url: ApiConstants.category.readAll,
+    url: ApiConstants.post.readAll,
   };
   return RestAPIController(config);
 }
-export function deleteCategoryAPI(categoryId) {
+export function deletePostAPI(postId) {
   let config = {
     method: "DELETE",
-    url: ApiConstants.category.delete + categoryId,
+    url: ApiConstants.post.delete + postId,
   };
   return RestAPIController(config);
 }
 
-export function addEditCategoryAPI({ data, url, method }) {
+export function addPostAPI({ data, url, method }) {
   let config = {
     method,
     url,

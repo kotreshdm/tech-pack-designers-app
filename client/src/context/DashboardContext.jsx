@@ -9,6 +9,7 @@ const DashboardContextWrapper = ({ children }) => {
   const [categoryCurrentPage, setCategoryCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [postsCurrentPage, setPostsCurrentPage] = useState(1);
+  const [filterPost, setFilterPost] = useState({});
   return (
     <DashboardContext.Provider
       value={{
@@ -19,6 +20,7 @@ const DashboardContextWrapper = ({ children }) => {
         categoryCurrentPageNo: [categoryCurrentPage, setCategoryCurrentPage],
         allPosts: [posts, setPosts],
         postCurrentPageNo: [postsCurrentPage, setPostsCurrentPage],
+        postFilter: [filterPost, setFilterPost],
       }}
     >
       {children}

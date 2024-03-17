@@ -4,28 +4,33 @@ import { useDashboardContext } from "../../context/DashboardContext";
 import DeleteModel from "../../components/dashboard/DeleteModel";
 import { Modal } from "flowbite-react";
 import { toast } from "react-toastify";
-import {
-  deleteCategoryAPI,
-  getAllCategoriesAPI,
-} from "../../components/dashboard/apiConfig/categoriesAPIConfig";
+import { deleteCategoryAPI } from "../../components/dashboard/apiConfig/categoriesAPIConfig";
 import ViewCategoryModel from "../../components/dashboard/ViewCategoryModel";
 import AddCategoryModel from "../../components/dashboard/AddCategoryModel";
-import { getAllPostsAPI } from "../../components/dashboard/apiConfig/postsAPIConfig";
+import {
+  deletePostAPI,
+  getAllPostsAPI,
+} from "../../components/dashboard/apiConfig/postAPIConfig";
+import AddPost from "../../components/dashboard/AddPost";
 
-const Category = () => {
-  const { allPosts, postCurrentPageNo } = useDashboardContext();
+const Posts = () => {
+  const { allPosts, postCurrentPageNo, postFilter } = useDashboardContext();
   const [posts, setPosts] = allPosts;
   const [postsCurrentPage, setPostsCurrentPage] = postCurrentPageNo;
+  const [isAddEditPost, setIsAddEditPost] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [addData, setAddData] = useState(false);
   const [viewData, setViewData] = useState(false);
   const [deleteData, setDeleteData] = useState(false);
   const [selectedData, setSelectedData] = useState({});
+  const [filterPost, setFilterPost] = postFilter;
   useEffect(() => {
     if (posts.length === 0) {
       getAllPosts();
     }
   }, []);
+  useEffect(() => {
+    console.log();
+  }, [posts, filterPost]);
   const getAllPosts = async () => {
     setLoading(true);
     await getAllPostsAPI().then((response) => {
@@ -38,24 +43,25 @@ const Category = () => {
     setLoading(false);
   };
   const columns = [
+    { Header: "Post Id", accessor: "postId" },
+    { Header: "Post Name", accessor: "postName" },
+    { Header: "Slug", accessor: "postSlug" },
     { Header: "Category Id", accessor: "categoryId" },
-    { Header: "Category Name", accessor: "name" },
-    { Header: "Description", accessor: "description" },
-    { Header: "Slug", accessor: "slug" },
+    { Header: "Status", accessor: "status" },
   ];
-  const addCategoryButton = () => {
-    setAddData(true);
+  const addButton = () => {
+    setIsAddEditPost(true);
     setSelectedData({});
   };
   const deleteButton = (item) => {
     setDeleteData(true);
     setSelectedData(item);
   };
-  const handleDletecategory = async () => {
-    await deleteCategoryAPI(selectedData.categoryId).then((response) => {
+  const handleDletePost = async () => {
+    await deletePostAPI(selectedData.postId).then((response) => {
       if (response.status === 200) {
-        getAllCategories();
-        toast.success(`${selectedData.userName} Category successfully !!! `);
+        getAllPosts();
+        toast.success(`${selectedData.postName} Post successfully !!! `);
       } else {
         toast.error(response.message.sqlMessage);
       }
@@ -68,28 +74,51 @@ const Category = () => {
     setSelectedData(item);
   };
   const editButton = (item) => {
-    setAddData(true);
+    setIsAddEditPost(true);
     setSelectedData(item);
   };
   return (
-    <div className='container grid grid-cols-1 gap-0'>
-      <div>
-        <MyTable
-          addNewRecord={addCategoryButton}
-          columns={columns}
-          data={posts}
-          loading={loading}
-          onDelete={deleteButton}
-          onEdit={editButton}
-          onView={viewButton}
-          currentPage={postsCurrentPage}
-          setCurrentPage={setPostsCurrentPage}
-          tableHeader={"Posts"}
-          refreshData={getAllPosts}
+    <div className='container grid grid-cols-1 gap-0 mt-3'>
+      {isAddEditPost ? (
+        <AddPost
+          selectedData={selectedData}
+          backToPost={() => setIsAddEditPost(false)}
+          refreshAfterAdd={getAllPosts}
         />
-      </div>
+      ) : (
+        <>
+          <div>
+            <MyTable
+              addNewRecord={addButton}
+              columns={columns}
+              data={posts}
+              loading={loading}
+              onDelete={deleteButton}
+              onEdit={editButton}
+              onView={viewButton}
+              currentPage={postsCurrentPage}
+              setCurrentPage={setPostsCurrentPage}
+              tableHeader={"Posts"}
+              refreshData={getAllPosts}
+            />
+          </div>
+          <div>
+            <Modal
+              show={deleteData}
+              onClose={() => setDeleteData(false)}
+              popup
+              className='m-auto'
+            >
+              <DeleteModel
+                handleSubmit={handleDletePost}
+                closeModel={() => setDeleteData(false)}
+              />
+            </Modal>
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
-export default Category;
+export default Posts;
