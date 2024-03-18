@@ -24,3 +24,12 @@ export function addPostAPI({ data, url, method }) {
   };
   return RestAPIController(config);
 }
+export function editPostDescriptionAPI({ data }) {
+  let config = {
+    method: "PUT",
+    url: ApiConstants.post.updateDesc,
+    data,
+  };
+  return RestAPIController(config);
+}
+editPostDescriptionAPI;

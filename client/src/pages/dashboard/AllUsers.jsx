@@ -10,6 +10,7 @@ import {
   getAllUsersAPI,
   deleteUserAPI,
 } from "../../components/dashboard/apiConfig/AllUsers";
+import TableHeader from "../../components/dashboard/TableHeader";
 
 const AllUsers = () => {
   const { allUserData, allUsersCurrentPageNo } = useDashboardContext();
@@ -66,6 +67,9 @@ const AllUsers = () => {
   return (
     <div className='container grid grid-cols-1 gap-0'>
       <div>
+        <TableHeader tableHeader={"User Data"} refreshData={getAllUsers} />
+      </div>
+      <div>
         <MyTable
           columns={columns}
           currentPage={allUsersCurrentPage}
@@ -74,8 +78,6 @@ const AllUsers = () => {
           onDelete={handleDelete}
           onView={handleView}
           setCurrentPage={setAllUsersCurrentPage}
-          tableHeader={"User Data"}
-          refreshData={getAllUsers}
         />
       </div>
 

@@ -23,6 +23,7 @@ const ApiConstants = {
   post: {
     create: "/api/posts/create",
     update: "/api/posts/update",
+    updateDesc: "/api/posts/updateDesc",
     readAll: "/api/posts/listAll",
     delete: "/api/posts/delete/",
     readOne: "/api/posts/getPost/",

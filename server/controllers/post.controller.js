@@ -137,7 +137,6 @@ export const update = async (req, res, next) => {
 };
 
 function checkpostExistsUpdate(postSlug, postId) {
-  console.log(postSlug, postId);
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM posts WHERE postSlug = ? AND postId != ?";
     db.query(query, [postSlug, postId], (error, results) => {
@@ -150,6 +149,20 @@ function checkpostExistsUpdate(postSlug, postId) {
   });
 }
 
+export const updateDesc = async (req, res, next) => {
+  const { postDescription, postId } = req.body;
+  console.log(postDescription, postId);
+  const updatedBy = req.user.userId;
+  try {
+    // Update desc
+    const user = await updatepost({ ...req.body, updatedBy });
+    res.status(200).json("Post updated");
+  } catch (error) {
+    console.error("Error:", error);
+    return next(errorHandler(200, error));
+  }
+};
+
 function updatepost({
   postName,
   postSlug,
@@ -159,6 +172,7 @@ function updatepost({
   SEOKeywords,
   bannerImage,
   socialImage,
+  status,
   postId,
   updatedBy,
 }) {
@@ -174,6 +188,7 @@ function updatepost({
       SEOKeywords = COALESCE(?, SEOKeywords),
       bannerImage = COALESCE(?, bannerImage),
       socialImage = COALESCE(?, socialImage),
+      status = COALESCE(?, status),
       updatedBy = COALESCE(?, updatedBy)
       WHERE postId = ?;
     `;
@@ -188,6 +203,7 @@ function updatepost({
         SEOKeywords,
         bannerImage,
         socialImage,
+        status,
         updatedBy,
         postId,
       ],

@@ -10,6 +10,7 @@ import {
 } from "../../components/dashboard/apiConfig/categoriesAPIConfig";
 import ViewCategoryModel from "../../components/dashboard/ViewCategoryModel";
 import AddCategoryModel from "../../components/dashboard/AddCategoryModel";
+import TableHeader from "../../components/dashboard/TableHeader";
 
 const Category = () => {
   const { allCategories, categoryCurrentPageNo } = useDashboardContext();
@@ -73,8 +74,14 @@ const Category = () => {
   return (
     <div className='container grid grid-cols-1 gap-0'>
       <div>
-        <MyTable
+        <TableHeader
           addNewRecord={addCategoryButton}
+          tableHeader={"Categories"}
+          refreshData={getAllCategories}
+        />
+      </div>
+      <div>
+        <MyTable
           columns={columns}
           data={categories}
           loading={loading}
@@ -83,8 +90,6 @@ const Category = () => {
           onView={viewButton}
           currentPage={categoryCurrentPage}
           setCurrentPage={setCategoryCurrentPage}
-          tableHeader={"Categories"}
-          refreshData={getAllCategories}
         />
       </div>
       <Modal

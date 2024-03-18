@@ -12,12 +12,15 @@ import {
   getAllPostsAPI,
 } from "../../components/dashboard/apiConfig/postAPIConfig";
 import AddPost from "../../components/dashboard/AddPost";
+import EditPostDescription from "../../components/dashboard/EditPostDescription";
+import TableHeader from "../../components/dashboard/TableHeader";
 
 const Posts = () => {
   const { allPosts, postCurrentPageNo, postFilter } = useDashboardContext();
   const [posts, setPosts] = allPosts;
   const [postsCurrentPage, setPostsCurrentPage] = postCurrentPageNo;
-  const [isAddEditPost, setIsAddEditPost] = useState(true);
+  const [isAddEditPost, setIsAddEditPost] = useState(false);
+  const [editDescription, setEditDescription] = useState(false);
   const [loading, setLoading] = useState(false);
   const [viewData, setViewData] = useState(false);
   const [deleteData, setDeleteData] = useState(false);
@@ -77,6 +80,10 @@ const Posts = () => {
     setIsAddEditPost(true);
     setSelectedData(item);
   };
+  const editDescriptionButton = (item) => {
+    setEditDescription(true);
+    setSelectedData(item);
+  };
   return (
     <div className='container grid grid-cols-1 gap-0 mt-3'>
       {isAddEditPost ? (
@@ -84,23 +91,33 @@ const Posts = () => {
           selectedData={selectedData}
           backToPost={() => setIsAddEditPost(false)}
           refreshAfterAdd={getAllPosts}
-          content={"Test"}
+        />
+      ) : editDescription ? (
+        <EditPostDescription
+          selectedData={selectedData}
+          backToPost={() => setEditDescription(false)}
+          refreshAfterAdd={getAllPosts}
         />
       ) : (
         <>
           <div>
-            <MyTable
+            <TableHeader
               addNewRecord={addButton}
+              tableHeader={"Posts"}
+              refreshData={getAllPosts}
+            />
+          </div>
+          <div>
+            <MyTable
               columns={columns}
               data={posts}
               loading={loading}
               onDelete={deleteButton}
               onEdit={editButton}
+              onEditDescription={editDescriptionButton}
               onView={viewButton}
               currentPage={postsCurrentPage}
               setCurrentPage={setPostsCurrentPage}
-              tableHeader={"Posts"}
-              refreshData={getAllPosts}
             />
           </div>
           <div>

@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTable, usePagination } from "react-table";
 import "./MyTableStyles.css";
-import { MdDeleteForever } from "react-icons/md";
-import { AiOutlineFolderView } from "react-icons/ai";
-import { LiaEdit } from "react-icons/lia";
+import {
+  FcViewDetails,
+  FcEditImage,
+  FcAddImage,
+  FcFullTrash,
+  FcSynchronize,
+  FcAddRow,
+} from "react-icons/fc";
 import LoadingRecords from "./LoadingRecords";
-import { Banner, Button, Label, Pagination, TextInput } from "flowbite-react";
+import { Banner, Button, Pagination, Tooltip } from "flowbite-react";
 import { useDashboardContext } from "../../context/DashboardContext";
 const MyTable = ({
   addNewRecord,
@@ -15,6 +20,7 @@ const MyTable = ({
   loading,
   onDelete,
   onEdit,
+  onEditDescription,
   onView,
   setCurrentPage,
   tableHeader,
@@ -33,30 +39,12 @@ const MyTable = ({
     useTable({ columns, data }, usePagination);
   return (
     <div className='container mx-auto'>
-      <div className='table-header'>
-        <Banner>
-          <div className='flex w-full items-center justify-between border-b border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700'>
-            <div className='flex w-full items-center'>
-              <div className='flex-shrink-0'>{tableHeader}</div>
-              <div className='ml-auto flex'>
-                {addNewRecord && <Button onClick={addNewRecord}>Add</Button>}
-                {refreshData && (
-                  <Button onClick={refreshData} className='ml-2'>
-                    Refresh
-                  </Button>
-                )}
-              </div>
-            </div>
-          </div>
-        </Banner>
-      </div>
       <div
         className='grid grid-cols-1 gap-4'
         style={{
           maxWidth: "90%",
-          overflow: "scroll",
-          margin: "20px auto",
-          height: "320px",
+          margin: "10px auto",
+          height: "390px",
           overflowX: "auto",
         }}
       >
@@ -96,19 +84,34 @@ const MyTable = ({
                         ))}
                         <td className='action-buttons'>
                           {onView && (
-                            <button onClick={() => onView(row.original)}>
-                              <AiOutlineFolderView />
-                            </button>
+                            <Tooltip content='View'>
+                              <button onClick={() => onView(row.original)}>
+                                <FcViewDetails />
+                              </button>
+                            </Tooltip>
                           )}
                           {onEdit && (
-                            <button onClick={() => onEdit(row.original)}>
-                              <LiaEdit />
-                            </button>
+                            <Tooltip content='Edit'>
+                              <button onClick={() => onEdit(row.original)}>
+                                <FcEditImage />
+                              </button>
+                            </Tooltip>
+                          )}
+                          {onEditDescription && (
+                            <Tooltip content='Edit Description'>
+                              <button
+                                onClick={() => onEditDescription(row.original)}
+                              >
+                                <FcAddImage />
+                              </button>
+                            </Tooltip>
                           )}
                           {onDelete && (
-                            <button onClick={() => onDelete(row.original)}>
-                              <MdDeleteForever />
-                            </button>
+                            <Tooltip content='Delete'>
+                              <button onClick={() => onDelete(row.original)}>
+                                <FcFullTrash />
+                              </button>
+                            </Tooltip>
                           )}
                         </td>
                       </tr>
@@ -120,24 +123,22 @@ const MyTable = ({
           </table>
         </div>
       </div>
-      <div className='pagination'>
-        <div className='flex overflow-x-auto sm:justify-center'>
+      <div className='grid grid-cols-2 gap-4 container w-11/12 m-auto'>
+        <div className='p-1 flex justify-start'>
+          <p>
+            Showing {startIndex + 1} to {endIndex} of {totalItems} entries
+          </p>
+        </div>
+        <div className='p-1 flex justify-end'>
           <Pagination
             layout='pagination'
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={onPageChange}
-            previousLabel='Go back'
-            nextLabel='Go forward'
+            previousLabel='Prev'
+            nextLabel='Next'
             showIcons
           />
-        </div>
-      </div>
-      <div className='pagination'>
-        <div className='flex overflow-x-auto sm:justify-center'>
-          <div>
-            Displaying {startIndex + 1} to {endIndex} of {totalItems}
-          </div>
         </div>
       </div>
     </div>
