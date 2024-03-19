@@ -43,7 +43,9 @@ const Posts = () => {
         toast.error(response.message);
       }
     });
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
   const columns = [
     { Header: "Post Id", accessor: "postId" },
