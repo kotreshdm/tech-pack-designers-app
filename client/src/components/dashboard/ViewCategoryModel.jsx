@@ -30,11 +30,6 @@ const ViewCategoryModel = ({ closeModel, selectedData }) => {
               </h3>
             </div>
           </div>
-          <div className='flex justify-center gap-4'>
-            <Button color='gray' onClick={closeModel}>
-              Close
-            </Button>
-          </div>
         </div>
       </Modal.Body>
     </>

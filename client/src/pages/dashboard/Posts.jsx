@@ -14,6 +14,7 @@ import {
 import AddPost from "../../components/dashboard/AddPost";
 import EditPostDescription from "../../components/dashboard/EditPostDescription";
 import TableHeader from "../../components/dashboard/TableHeader";
+import ViewPostModel from "../../components/dashboard/ViewPostModel";
 
 const Posts = () => {
   const { allPosts, postCurrentPageNo, postFilter } = useDashboardContext();
@@ -132,6 +133,17 @@ const Posts = () => {
               <DeleteModel
                 handleSubmit={handleDletePost}
                 closeModel={() => setDeleteData(false)}
+              />
+            </Modal>
+            <Modal
+              show={viewData}
+              onClose={() => setViewData(false)}
+              popup
+              className='m-auto'
+            >
+              <ViewPostModel
+                selectedData={selectedData}
+                closeModel={() => setViewData(false)}
               />
             </Modal>
           </div>

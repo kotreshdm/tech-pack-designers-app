@@ -27,7 +27,9 @@ const EditPostDescription = ({ selectedData, backToPost, refreshAfterAdd }) => {
     e.preventDefault();
     let data = {
       postId: selectedData.postId,
-      postDescription: quillRef.current.value,
+      postDescription: quillRef.current.value
+        .replaceAll(/<\/?p[^>]*>/g, "")
+        .replace("<br>", "<br/>"),
     };
 
     if (quillRef.current.value === null || quillRef.current.value === "null") {

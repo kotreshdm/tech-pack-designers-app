@@ -1,34 +1,38 @@
 import { Button, Modal } from "flowbite-react";
 import React from "react";
-const ViewUserModel = ({ closeModel, selectedData }) => {
+const ViewPostModel = ({ closeModel, selectedData }) => {
   return (
     <>
       <Modal.Header className='m-2 text-lg text-gray-500 dark:text-gray-400'>
-        User Details
+        {selectedData.postName} Details
       </Modal.Header>
       <Modal.Body>
         <div className=''>
           <div className='flex items-center'>
             <div className='mr-5'>
-              <img
-                src={selectedData?.profilePicture}
-                alt='profilepic'
-                width='100px'
-              />
+              {selectedData.bannerImage && (
+                <img
+                  src={selectedData.bannerImage}
+                  alt='profilepic'
+                  width='100px'
+                />
+              )}
             </div>
             <div>
               <p className='mb-2 text-lg text-gray-500 dark:text-gray-400'>
-                Id : {selectedData.userId}
+                Id : {selectedData.postId}
               </p>
               <h3 className='mb-2 text-lg text-gray-500 dark:text-gray-400'>
-                Name : {selectedData.userName}
+                Slug : {selectedData.postSlug}
               </h3>
               <h3 className='mb-2 text-lg text-gray-500 dark:text-gray-400'>
-                Email : {selectedData.email}
+                Description :
               </h3>
-              <h3 className='mb-2 text-lg text-gray-500 dark:text-gray-400'>
-                Is Admin : {selectedData.isAdmin ? "True" : "False"}
-              </h3>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: selectedData.postDescription,
+                }}
+              />
             </div>
           </div>
         </div>
@@ -37,4 +41,4 @@ const ViewUserModel = ({ closeModel, selectedData }) => {
   );
 };
 
-export default ViewUserModel;
+export default ViewPostModel;
