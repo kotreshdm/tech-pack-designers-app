@@ -89,13 +89,7 @@ function Header() {
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
           </Dropdown>
-        ) : (
-          <Link to='/sign-in'>
-            <Button gradientDuoTone='purpleToBlue' outline>
-              Sign In
-            </Button>
-          </Link>
-        )}
+        ) : null}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
