@@ -27,6 +27,10 @@ const ApiConstants = {
     readAll: "/api/posts/listAll",
     delete: "/api/posts/delete/",
   },
+  public: {
+    posts: "/api/public/posts",
+    categories: "/api/public/categories",
+  },
 };
 
 export default ApiConstants;

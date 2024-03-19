@@ -7,6 +7,7 @@ const UserContextWrapper = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [postsCurrentPage, setPostsCurrentPage] = useState(1);
   const [filterPost, setFilterPost] = useState({});
+
   return (
     <UserContext.Provider
       value={{

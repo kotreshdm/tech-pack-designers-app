@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Constants from "./utils/Constants";
 import Blog from "./pages/blog/Blog";
 import UserContextWrapper from "./context/UserContext";
+import BlogCategory from "./pages/blog/BlogCategory";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Routes>
           <Route path={Constants.Navagation.home} element={<Home />} />
           <Route path={Constants.Navagation.blog} element={<Blog />} />
+          <Route path='/blogCategory/:slug' element={<BlogCategory />} />
           <Route path={Constants.Navagation.signIn} element={<SignIn />} />
           <Route element={<PrivateRoute />}>
             <Route

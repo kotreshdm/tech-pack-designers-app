@@ -4,6 +4,7 @@
 
 body {
   height: 100vh;
+  font-family: "DM Sans", Sans-serif;
 }
 
 .ql-editor {
@@ -38,4 +39,20 @@ body {
 
 .dark .post-content a {
   color: red;
+}
+
+.catList {
+  background-color: #145260;
+}
+.catList p span {
+  color: #ffffff;
+  fill: #ffffff;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 26px;
+  padding-bottom: 26px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
