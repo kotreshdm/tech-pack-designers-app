@@ -106,7 +106,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
         Body: socialImage,
         Key: `PostImage/${selectedData.postId
           .toString()
-          .padStart(6, "0")}/socialImage`,
+          .padStart(5, "0")}/socialImage`,
       };
       const result = await MyBucket.putObject(params)
         .on("httpUploadProgress", (evt) => {

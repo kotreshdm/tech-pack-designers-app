@@ -11,7 +11,7 @@ const router = Router();
 
 router.post("/create", verifyToken, create);
 router.put("/update", verifyToken, update);
-router.get("/listAll", listAll);
+router.get("/listAll", verifyToken, listAll);
 router.delete("/delete/:categoryId", verifyToken, deleteCtegory);
 
 export default router;
