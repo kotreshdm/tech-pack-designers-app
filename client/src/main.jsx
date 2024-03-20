@@ -6,6 +6,7 @@ import { store, persistor } from "./redux/store.js";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import ThemeProvider from "./utils/ThemeProvider.jsx";
+import UserContextWrapper from "./context/UserContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <PersistGate persistor={persistor}>
       <Provider store={store}>
         <ThemeProvider>
-          <App />
+          <UserContextWrapper>
+            <App />
+          </UserContextWrapper>
         </ThemeProvider>
       </Provider>
     </PersistGate>

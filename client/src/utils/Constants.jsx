@@ -10,6 +10,7 @@ const Constants = {
     contactUs: "/contact",
     signIn: "/sign-in",
     dashBoard: "/dashboard",
+    categoty: "/category/",
   },
   S3: {
     S3_BUCKET: import.meta.env.VITE_S3_BUCKET,

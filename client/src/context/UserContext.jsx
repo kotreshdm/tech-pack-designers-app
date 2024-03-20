@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 const UserContext = createContext();
 const UserContextWrapper = ({ children }) => {
-  const [pageSize, setPageSize] = useState(9);
+  const [pageSize, setPageSize] = useState(3);
   const [categories, setCategories] = useState([]);
   const [posts, setPosts] = useState([]);
   const [postsCurrentPage, setPostsCurrentPage] = useState(1);
