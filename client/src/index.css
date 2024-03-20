@@ -56,3 +56,14 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+.noImageDiv {
+  position: relative;
+}
+.textColorWhite {
+  color: #ffffff;
+}
+.verticalAlignMiddle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

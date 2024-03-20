@@ -19,20 +19,11 @@ import {
   getAllCategoriesAPI,
   getAllPostsAPI,
 } from "./components/blog/BlogAPIConfig";
+import BlogDetails from "./components/blog/BlogDetails";
 
 function App() {
-  const {
-    perPageRecords,
-    allCategories,
-    allPosts,
-    postCurrentPageNo,
-    postFilter,
-  } = useUserContext();
-  const [pageSize, setPageSize] = perPageRecords;
-  const [posts, setPosts] = allPosts;
-  const [postsCurrentPage, setPostsCurrentPage] = postCurrentPageNo;
-  const [categories, setCategories] = allCategories;
-  const [filterPost, setFilterPost] = postFilter;
+  const { categories, setCategories, setPosts } = useUserContext();
+
   const [loading, setLoading] = useState(false);
   const [loadingCat, setLoadingCat] = useState(false);
   useEffect(() => {
@@ -74,8 +65,12 @@ function App() {
         <Header />
         <Routes>
           <Route path={Constants.Navagation.home} element={<Home />} />
-          <Route element={<CategoriesBanner categories={categories} />}>
+          <Route element={<CategoriesBanner />}>
             <Route path={Constants.Navagation.blog} element={<Blog />} />
+            <Route
+              path={`${Constants.Navagation.blog}/:slug`}
+              element={<BlogDetails />}
+            />
             <Route
               path={`${Constants.Navagation.categoty}:slug`}
               element={<BlogCategory />}

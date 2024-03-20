@@ -5,9 +5,8 @@ import Constants from "../../utils/Constants";
 import { useUserContext } from "../../context/UserContext";
 
 const CategoriesBanner = () => {
-  const { allCategories } = useUserContext();
+  const { categories } = useUserContext();
 
-  const [categories] = allCategories;
   return (
     <div>
       <Banner>

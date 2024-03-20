@@ -11,11 +11,16 @@ const UserContextWrapper = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        perPageRecords: [pageSize, setPageSize],
-        allCategories: [categories, setCategories],
-        allPosts: [posts, setPosts],
-        postCurrentPageNo: [postsCurrentPage, setPostsCurrentPage],
-        postFilter: [filterPost, setFilterPost],
+        pageSize,
+        setPageSize,
+        categories,
+        setCategories,
+        posts,
+        setPosts,
+        postsCurrentPage,
+        setPostsCurrentPage,
+        filterPost,
+        setFilterPost,
       }}
     >
       {children}
