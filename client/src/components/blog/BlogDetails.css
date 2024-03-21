@@ -1,6 +1,3 @@
-.details {
-  text-align: center;
-}
 .details .title {
   font-size: 32px;
   font-weight: 800;
@@ -10,10 +7,9 @@
 }
 
 .details .blog-description {
-  text-align: justify;
+  text-align: left;
 }
 .details .dateAuthor {
-  text-align: left;
   font-size: 16px;
   line-height: 1;
 }
@@ -21,13 +17,43 @@
   color: #34b7f1;
 }
 .blog-description h1 {
-  text-align: center;
   font-size: 32px;
   font-weight: 900;
   margin-bottom: 10px;
 }
+
+.blog-description h2 {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.blog-description h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+.blog-description h4 {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.blog-description h5 {
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.blog-description h6 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.blog-description img {
+  margin: auto;
+  padding: 5px 0;
+}
 .blog-description p {
   margin-bottom: 10px;
+  text-align: justify;
 }
 .blog-description ul {
   margin-bottom: 10px;
@@ -36,4 +62,16 @@
   list-style-type: disc;
   margin-left: 40px;
   padding-bottom: 10px;
+}
+.keep-reading-div {
+  border-left: 5px solid #145260;
+}
+.keep-reading {
+  color: #145260;
+  padding: 0 0 0 30px;
+  margin: 0;
+  font-family: "freight-text-pro", Sans-serif;
+  font-size: 47px;
+  font-weight: 200;
+  text-transform: capitalize;
 }
