@@ -1,0 +1,39 @@
+.details {
+  text-align: center;
+}
+.details .title {
+  font-size: 32px;
+  font-weight: 800;
+  padding: 0;
+  color: #34b7f1;
+  text-align: left;
+}
+
+.details .blog-description {
+  text-align: justify;
+}
+.details .dateAuthor {
+  text-align: left;
+  font-size: 16px;
+  line-height: 1;
+}
+.details .dateAuthor span {
+  color: #34b7f1;
+}
+.blog-description h1 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.blog-description p {
+  margin-bottom: 10px;
+}
+.blog-description ul {
+  margin-bottom: 10px;
+}
+.blog-description ul li {
+  list-style-type: disc;
+  margin-left: 40px;
+  padding-bottom: 10px;
+}

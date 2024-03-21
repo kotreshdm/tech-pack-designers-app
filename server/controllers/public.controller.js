@@ -9,7 +9,7 @@ export const getAllPosts = async (req, res, next) => {
       getPublishedPosts(),
     ]);
 
-    const newPosts = posts.map((post) => {
+    const postWithUserNamAndCategory = posts.map((post) => {
       const catName = categories.find(
         (cat) => cat.categoryId === post.categoryId
       );
@@ -22,9 +22,7 @@ export const getAllPosts = async (req, res, next) => {
         userProfilePicture: user ? user.profilePicture : null,
       };
     });
-
-    console.log(newPosts);
-    res.status(200).json(newPosts); // Sending the mapped posts to the client
+    res.status(200).json(postWithUserNamAndCategory); // Sending the mapped posts to the client
   } catch (error) {
     next(error); // Pass any errors to the error handling middleware
   }

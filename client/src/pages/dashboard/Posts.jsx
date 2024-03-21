@@ -46,7 +46,7 @@ const Posts = () => {
     });
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 100);
   };
   const columns = [
     { Header: "Post Id", accessor: "postId" },
