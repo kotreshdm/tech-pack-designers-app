@@ -1,4 +1,5 @@
 const Constants = {
+  baseURL: import.meta.env.VITE_BASE_URL,
   Navagation: {
     home: "/",
     about: "/about",

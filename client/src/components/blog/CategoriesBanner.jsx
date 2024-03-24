@@ -9,7 +9,9 @@ const CategoriesBanner = () => {
 
   return (
     <div>
-      <Banner>
+      <Banner
+        style={{ position: "sticky", top: "0", zIndex: "99", maxHeight: "99" }}
+      >
         <div className='flex w-full justify-between p-4 dark:border-gray-600 dark:bg-gray-700 catList'>
           <div className='mx-auto flex items-center'>
             <p className='flex items-center text-sm font-bold  text-gray-500  dark:text-gray-400'>
