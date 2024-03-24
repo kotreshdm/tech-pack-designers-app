@@ -49,10 +49,36 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
   };
   const handleBanerImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
+    if (!file) return;
+
+    // Create a new Image object
+    const img = new Image();
+
+    // Set up onload event handler
+    img.onload = function () {
+      const width = this.width;
+      const height = this.height;
+
+      console.log(width, height);
+
+      // Check if dimensions are correct
+      if (width !== 350 || height !== 200) {
+        toast.error("Image size should be 350 X 200");
+        return;
+      }
+
+      // Dimensions are correct, proceed with setting banner image
       setBannerImage(file);
       setBannerImageUrl(URL.createObjectURL(file));
-    }
+    };
+
+    // Set up onerror event handler
+    img.onerror = function () {
+      toast.error("Failed to load image");
+    };
+
+    // Set the src of the Image object to the selected file
+    img.src = URL.createObjectURL(file);
   };
   const handleSocialImageChange = (e) => {
     const file = e.target.files[0];
@@ -72,6 +98,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
         .join("-")
         .toLowerCase()
         .replace(/[^a-zA-Z0-9-]/g, "");
+      if (data.postSlug.length > 75) {
+        toast.error({ title: "Post title should be less then 75 Char" });
+        return;
+      }
     }
 
     let url = ApiConstants.post.create;
@@ -267,7 +297,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     src={
                       bannerImageUrl ||
                       selectedData.bannerImage ||
-                      "https://placehold.co/300x200"
+                      "https://placehold.co/350x200"
                     }
                     alt='user'
                     className={`m-auto h-full object-cover border-4 border-[lightgray] ${
@@ -295,7 +325,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     src={
                       socialImageUrl ||
                       selectedData.socialImage ||
-                      "https://placehold.co/300x200"
+                      "https://placehold.co/350x200"
                     }
                     alt='user'
                     className={`m-auto h-full object-cover border-4 border-[lightgray] ${

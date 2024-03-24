@@ -119,7 +119,7 @@ const BlogDetails = () => {
           <div className='col-span-3 md:col-span-1 '></div>
           <div className='col-span-9 md:col-span-11 keep-reading-div'>
             <h2 className='keep-reading'>
-              Keep <br /> Reading
+              Keep <span> Reading ......</span>
             </h2>
           </div>
           <div className='col-span-3 md:col-span-1 '></div>
@@ -174,7 +174,7 @@ const BlogDetails = () => {
                     </p>
                     <a
                       href={`${Constants.Navagation.blog}/${post.postSlug}`}
-                      className='inline-flex items-center px-3 py-2 text-sm font-medium text-center  rounded-lg hover:bg-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                      className='font-knad inline-flex items-center px-3 py-2 text-sm font-medium text-center  rounded-lg hover:bg-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                     >
                       Read more
                       <svg
