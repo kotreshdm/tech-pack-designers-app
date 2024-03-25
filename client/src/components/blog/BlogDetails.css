@@ -79,9 +79,9 @@
   display: block;
   font-style: italic;
 }
-.keep-reading-container img {
+/* .keep-reading-container img {
   width: 100%;
-}
+} */
 .dark .keep-reading-div {
   border-left: 3px solid #fff;
 }

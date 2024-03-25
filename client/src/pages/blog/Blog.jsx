@@ -25,11 +25,13 @@ function Blog() {
     <div>
       <DispalyBlog posts={dispalyPost} />
       <div className='pb-10'>
-        <PaginationComponent
-          currentPage={postsCurrentPage}
-          setCurrentPage={setPostsCurrentPage}
-          totalPages={totalPages}
-        />
+        {totalPages > 1 ? (
+          <PaginationComponent
+            currentPage={postsCurrentPage}
+            setCurrentPage={setPostsCurrentPage}
+            totalPages={totalPages}
+          />
+        ) : null}
       </div>
     </div>
   );

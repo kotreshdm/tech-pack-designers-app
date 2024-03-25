@@ -57,8 +57,8 @@ function App() {
     <BrowserRouter>
       <>
         <ToastContainer
-          autoClose={10000}
-          position='bottom-left'
+          autoClose={6000}
+          position='top-right'
           className='toast-container'
           toastClassName='dark-toast'
         />

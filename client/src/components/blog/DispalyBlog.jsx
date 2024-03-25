@@ -3,16 +3,16 @@ import Constants from "../../utils/Constants";
 
 const DispalyBlog = ({ posts }) => {
   return (
-    <div className='container grid grid-cols-3 m-auto pb-10'>
+    <div className='container grid grid-cols-1 md:grid-cols-4 gap-6 m-auto pb-3'>
       {posts.map((post) => (
         <div
           key={post.postSlug}
-          className='max-w-sm bg-white rounded-lg mt-10 shadow dark:bg-gray-800 dark:border-gray-700 '
+          className='shadow-lg hover:shadow-2xl bg-white mt-10 shadow dark:bg-gray-800 dark:border-gray-700 '
         >
           {post.bannerImage ? (
-            <a href='#'>
+            <a href={`${Constants.Navagation.blog}/${post.postSlug}`}>
               <img
-                className='rounded-t-lg h-60 m-auto'
+                className='rounded-t-lg m-auto'
                 src={post.bannerImage}
                 alt={post.postSlug}
               />
@@ -23,15 +23,17 @@ const DispalyBlog = ({ posts }) => {
             </div>
           )}
           <div className='p-5'>
-            <a href='#'>
+            <a href={`${Constants.Navagation.blog}/${post.postSlug}`}>
               <h5
-                className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
+                className='mb-2 font-bold tracking-tight text-gray-700 dark:text-white'
                 style={{
-                  maxHeight: "4.2rem",
-                  minHeight: "4.2rem",
+                  maxHeight: "3.4rem",
+                  minHeight: "3.4rem",
                   overflow: "hidden",
                   display: "-webkit-box",
                   WebkitLineClamp: 2,
+                  lineHeight: "25px",
+                  fontSize: "21px",
                   WebkitBoxOrient: "vertical",
                 }}
               >
@@ -39,13 +41,15 @@ const DispalyBlog = ({ posts }) => {
               </h5>
             </a>
             <p
-              className='mb-3 font-normal text-gray-700 dark:text-gray-400'
+              className='mb-3  text-gray-700 dark:text-gray-400'
               style={{
-                maxHeight: "9rem",
-                minHeight: "9rem",
+                maxHeight: "8rem",
+                minHeight: "5rem",
+                fontSize: "14px",
+                lineHeight: "21px",
                 overflow: "hidden",
                 display: "-webkit-box",
-                WebkitLineClamp: 6,
+                WebkitLineClamp: 5,
                 WebkitBoxOrient: "vertical",
               }}
             >
