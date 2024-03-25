@@ -182,8 +182,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
           <div className='grid grid-cols-3 gap-4'>
             <div className=' mt-3'>
               <label>Post Title</label>
-              <TextInput
-                type='text'
+              <textarea
                 placeholder='Title'
                 required
                 id='postName'
@@ -194,7 +193,40 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     postName: e.target.value,
                   })
                 }
-              />
+                rows='4'
+                class='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'></textarea>
+            </div>
+
+            <div className='mt-3'>
+              <label>Description</label>
+              <textarea
+                id='SEODescription'
+                defaultValue={selectedData.SEODescription}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    SEODescription: e.target.value,
+                  })
+                }
+                rows='4'
+                class='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                placeholder='SEO Description'></textarea>
+            </div>
+
+            <div className='mt-3'>
+              <label>SEO Keywords</label>
+              <textarea
+                placeholder='SEO Keywords'
+                id='SEOKeywords'
+                defaultValue={selectedData.SEOKeywords}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    SEOKeywords: e.target.value,
+                  })
+                }
+                rows='4'
+                class='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'></textarea>
             </div>
             <div className=' mt-3'>
               <label value={-1}>Select category</label>
@@ -205,8 +237,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     categoryId: e.target.value,
                   })
                 }
-                value={selectedData.categoryId}
-              >
+                value={selectedData.categoryId}>
                 <option value='uncategorized'>Select a category</option>
                 {categories.map((cat) => (
                   <option key={cat.categoryId} value={cat.categoryId}>
@@ -214,52 +245,6 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                   </option>
                 ))}
               </Select>
-            </div>
-
-            <div className=' mt-3'>
-              <label>Page Title</label>
-              <TextInput
-                type='text'
-                placeholder='Page Title'
-                id='SEOTitle'
-                defaultValue={selectedData.SEOTitle}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    SEOTitle: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className='mt-3'>
-              <label>SEO Description</label>
-              <TextInput
-                type='text'
-                placeholder='SEO Description'
-                id='SEODescription'
-                defaultValue={selectedData.SEODescription}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    SEODescription: e.target.value,
-                  })
-                }
-              />
-            </div>
-            <div className='mt-3'>
-              <label>SEO Keywords</label>
-              <TextInput
-                type='text'
-                placeholder='SEO Keywords'
-                id='SEOKeywords'
-                defaultValue={selectedData.SEOKeywords}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    SEOKeywords: e.target.value,
-                  })
-                }
-              />
             </div>
             <div className='mt-3'>
               <label>Post Status</label>
@@ -270,74 +255,46 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     status: e.target.value,
                   })
                 }
-                value={selectedData.status}
-              >
+                value={selectedData.status}>
                 <option value=''>Select a Post Status</option>
                 <option value='Draft'>Draft</option>
                 <option value='Published'>Published</option>
               </Select>
             </div>
-          </div>
-          {selectedData.postId ? (
-            <div className='grid grid-cols-4 gap-4'>
-              <div className=' mt-3'>
-                <label>Post Banner</label>
-                <input
-                  type='file'
-                  accept='image/*'
-                  onChange={handleBanerImageChange}
-                  ref={filePickerBanner}
-                  hidden
-                />
-                <div
-                  className='relative h-48 self-center cursor-pointer overflow-hidden'
-                  onClick={() => filePickerBanner.current.click()}
-                >
-                  <img
-                    src={
-                      bannerImageUrl ||
-                      selectedData.bannerImage ||
-                      "https://placehold.co/350x200"
-                    }
-                    alt='user'
-                    className={`m-auto h-full object-cover border-4 border-[lightgray] ${
-                      bannerUploadProgress &&
-                      bannerUploadProgress < 100 &&
-                      "opacity-60"
-                    }`}
+            <div className='mt-3'>
+              {selectedData.postId ? (
+                <>
+                  {" "}
+                  <label>Post Banner</label>{" "}
+                  <input
+                    type='file'
+                    accept='image/*'
+                    onChange={handleBanerImageChange}
+                    ref={filePickerBanner}
+                    hidden
                   />
-                </div>
-              </div>
-              <div className='mt-3'>
-                <label>Post SocialMedia Image</label>
-                <input
-                  type='file'
-                  accept='image/*'
-                  onChange={handleSocialImageChange}
-                  ref={filePickerSocialMedia}
-                  hidden
-                />
-                <div
-                  className='relative h-48 self-center cursor-pointer overflow-hidden'
-                  onClick={() => filePickerSocialMedia.current.click()}
-                >
-                  <img
-                    src={
-                      socialImageUrl ||
-                      selectedData.socialImage ||
-                      "https://placehold.co/350x200"
-                    }
-                    alt='user'
-                    className={`m-auto h-full object-cover border-4 border-[lightgray] ${
-                      socialUploadProgress &&
-                      socialUploadProgress < 100 &&
-                      "opacity-60"
-                    }`}
-                  />
-                </div>
-              </div>
+                  <div
+                    className='relative h-48 self-center cursor-pointer overflow-hidden'
+                    onClick={() => filePickerBanner.current.click()}>
+                    <img
+                      src={
+                        bannerImageUrl ||
+                        selectedData.bannerImage ||
+                        "https://placehold.co/350x200"
+                      }
+                      alt='user'
+                      className={`m-auto h-full object-cover border-4 border-[lightgray] ${
+                        bannerUploadProgress &&
+                        bannerUploadProgress < 100 &&
+                        "opacity-60"
+                      }`}
+                    />
+                  </div>{" "}
+                </>
+              ) : null}
             </div>
-          ) : null}
+          </div>
+
           <div className='grid grid-cols-6 gap-1 mt-8'>
             <div className='col-span-3 flex justify-start'>
               <Button onClick={backToPost}>All Post</Button>

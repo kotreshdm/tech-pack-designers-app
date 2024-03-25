@@ -44,10 +44,9 @@ const MyTable = ({
         style={{
           maxWidth: "90%",
           margin: "10px auto",
-          height: "390px",
+          height: "415px",
           overflowX: "auto",
-        }}
-      >
+        }}>
         <div>
           <table {...getTableProps()} className='container mx-auto'>
             <thead>
@@ -77,8 +76,7 @@ const MyTable = ({
                         {row.cells.map((cell) => (
                           <td
                             {...cell.getCellProps()}
-                            className='truncate max-w-xs'
-                          >
+                            className='truncate max-w-xs'>
                             {cell.render("Cell")}
                           </td>
                         ))}
@@ -100,8 +98,7 @@ const MyTable = ({
                           {onEditDescription && (
                             <Tooltip content='Edit Description'>
                               <button
-                                onClick={() => onEditDescription(row.original)}
-                              >
+                                onClick={() => onEditDescription(row.original)}>
                                 <FcAddImage />
                               </button>
                             </Tooltip>

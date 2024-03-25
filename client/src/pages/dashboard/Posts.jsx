@@ -52,7 +52,7 @@ const Posts = () => {
     { Header: "Post Id", accessor: "postId" },
     { Header: "Post Name", accessor: "postName" },
     { Header: "Slug", accessor: "postSlug" },
-    { Header: "Category Id", accessor: "categoryId" },
+    { Header: "Cat Id", accessor: "categoryId" },
     { Header: "Status", accessor: "status" },
   ];
   const addButton = () => {
@@ -128,8 +128,7 @@ const Posts = () => {
               show={deleteData}
               onClose={() => setDeleteData(false)}
               popup
-              className='m-auto'
-            >
+              className='m-auto'>
               <DeleteModel
                 handleSubmit={handleDletePost}
                 closeModel={() => setDeleteData(false)}
@@ -139,8 +138,7 @@ const Posts = () => {
               show={viewData}
               onClose={() => setViewData(false)}
               popup
-              className='m-auto'
-            >
+              className='m-auto'>
               <ViewPostModel
                 selectedData={selectedData}
                 closeModel={() => setViewData(false)}

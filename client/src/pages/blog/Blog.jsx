@@ -23,7 +23,7 @@ function Blog() {
 
   return (
     <div>
-      <DispalyBlog posts={dispalyPost} />
+      <DispalyBlog posts={dispalyPost}/>
       <div className='pb-10'>
         {totalPages > 1 ? (
           <PaginationComponent

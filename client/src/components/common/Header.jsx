@@ -41,8 +41,7 @@ function Header() {
       <div>
         <Link
           to='/'
-          className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'
-        >
+          className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
           {/* <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
           Sahand's
         </span> */}
@@ -55,8 +54,7 @@ function Header() {
           <Navbar.Link
             active={path === menuItem.url}
             as={"div"}
-            key={menuItem.url}
-          >
+            key={menuItem.url}>
             <Link to={menuItem.url}>{menuItem.label}</Link>
           </Navbar.Link>
         ))}
@@ -80,8 +78,7 @@ function Header() {
           className='w-12 h-10 hidden sm:inline'
           color='gray'
           pill
-          onClick={() => dispatch(toggleTheme())}
-        >
+          onClick={() => dispatch(toggleTheme())}>
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
@@ -90,16 +87,15 @@ function Header() {
             inline
             label={
               <Avatar alt='user' img={currentUser.profilePicture} rounded />
-            }
-          >
+            }>
             <Dropdown.Header>
               <span className='block text-sm'>@{currentUser.userName}</span>
               <span className='block text-sm font-medium truncate'>
                 {currentUser.email}
               </span>
             </Dropdown.Header>
-            <Link to={"/dashboard?tab=profile"}>
-              <Dropdown.Item>Profile</Dropdown.Item>
+            <Link to={"/dashboard?tab=posts"}>
+              <Dropdown.Item>Post</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>

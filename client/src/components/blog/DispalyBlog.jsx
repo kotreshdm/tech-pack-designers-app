@@ -3,11 +3,11 @@ import Constants from "../../utils/Constants";
 
 const DispalyBlog = ({ posts }) => {
   return (
-    <div className='container grid grid-cols-1 md:grid-cols-4 gap-6 m-auto pb-3'>
+    <div className='container grid grid-cols-1 md:grid-cols-4 gap-6 m-auto pb-3 pt-10 '>
       {posts.map((post) => (
         <div
           key={post.postSlug}
-          className='shadow-lg hover:shadow-2xl bg-white mt-10 shadow dark:bg-gray-800 dark:border-gray-700 '
+          className='shadow-lg hover:shadow-2xl bg-white mt-3 shadow dark:bg-gray-800 dark:border-gray-700 '
         >
           {post.bannerImage ? (
             <a href={`${Constants.Navagation.blog}/${post.postSlug}`}>
@@ -41,7 +41,7 @@ const DispalyBlog = ({ posts }) => {
               </h5>
             </a>
             <p
-              className='mb-3  text-gray-700 dark:text-gray-400'
+              className='mb-3 text-gray-700 dark:text-gray-400'
               style={{
                 maxHeight: "8rem",
                 minHeight: "5rem",

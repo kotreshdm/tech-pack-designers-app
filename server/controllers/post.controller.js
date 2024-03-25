@@ -107,7 +107,7 @@ export const deletePost = async (req, res, next) => {
 };
 
 export const listAll = async (req, res, next) => {
-  const query = "Select * FROM posts";
+  const query = "Select * FROM posts ORDER BY postId DESC";
   db.query(query, (error, result) => {
     if (error) {
       return next(errorHandler(200, error));

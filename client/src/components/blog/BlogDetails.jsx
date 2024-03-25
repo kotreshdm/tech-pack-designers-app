@@ -22,7 +22,6 @@ const BlogDetails = () => {
     hashtag = "#" + post.postSlug + " #" + post.categorySlug;
   }
   useEffect(() => {
-    console.log(slug, posts);
     if (slug && posts.length > 0) {
       const foundPost = posts.find((post) => post.postSlug === slug);
       setPost(foundPost || null);
