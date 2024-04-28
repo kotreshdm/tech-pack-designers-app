@@ -107,8 +107,7 @@ function SignIn() {
             <Button
               gradientDuoTone='purpleToPink'
               type='submit'
-              disabled={loading}
-            >
+              disabled={loading}>
               {loading ? (
                 <>
                   <Spinner size='sm' />
@@ -132,8 +131,7 @@ function SignIn() {
             </span>
             <span
               className='text-blue-500 hover:cursor-pointer'
-              onClick={() => changeFrom()}
-            >
+              onClick={() => changeFrom()}>
               {signUpForm ? "Sign In" : "Sign Up"}
             </span>
           </div>

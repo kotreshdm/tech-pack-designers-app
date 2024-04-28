@@ -18,11 +18,13 @@ export const signup = async (req, res, next) => {
     return next(errorHandler(200, "All fields are required!!"));
   }
   try {
+    //validate existing user
+
     // Check if the email already exists
     // const isEmailDuplicate = await checkEmailExists(email);
     // console.log("isEmailDuplicate", isEmailDuplicate);
     // if (isEmailDuplicate.length > 0) {
-    //   return next(errorHandler(200, "Email already exists"));
+    //   return next(errorHandler(200, "User already exists"));
     // }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -33,9 +35,8 @@ export const signup = async (req, res, next) => {
       password: hashedPassword,
     });
     const addedUser = await newUser.save();
-    console.log(addedUser);
     // Omit password from the response
-    const { password: pass, ...rest } = addedUser;
+    const { password: pass, ...rest } = addedUser._doc;
     const token = jwt.sign(
       { userId: addedUser.userId, isAdmin: addedUser.isAdmin },
       process.env.JWT_SECRET
