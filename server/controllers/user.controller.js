@@ -2,9 +2,11 @@ import db from "../utils/connection.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
 
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
+  console.log("userName", userName);
   if (
     !email ||
     !password ||
@@ -17,20 +19,21 @@ export const signup = async (req, res, next) => {
   }
   try {
     // Check if the email already exists
-    const isEmailDuplicate = await checkEmailExists(email);
-    console.log("isEmailDuplicate", isEmailDuplicate);
-    if (isEmailDuplicate.length > 0) {
-      return next(errorHandler(200, "Email already exists"));
-    }
+    // const isEmailDuplicate = await checkEmailExists(email);
+    // console.log("isEmailDuplicate", isEmailDuplicate);
+    // if (isEmailDuplicate.length > 0) {
+    //   return next(errorHandler(200, "Email already exists"));
+    // }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
-    // Insert the new user
-    const addedUser = await insertUser({
+    // Insert the new
+    const newUser = new User({
       userName,
       email,
       password: hashedPassword,
     });
-
+    const addedUser = await newUser.save();
+    console.log(addedUser);
     // Omit password from the response
     const { password: pass, ...rest } = addedUser;
     const token = jwt.sign(

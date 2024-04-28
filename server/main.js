@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
 import morgan from "morgan";
 //All router
 import userRoutes from "./routes/user.route.js";
@@ -16,6 +17,15 @@ app.use(morgan("dev"));
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
+
+const options = {
+  dbName: process.env.MONGODB_DB,
+};
+
+mongoose
+  .connect(process.env.MONGO, options)
+  .then(() => console.log("Mango db Connected!"))
+  .catch((err) => console.log(err));
 
 app.listen(PORT, () => {
   console.log(`Server start at port ${PORT}!!`);
