@@ -1,0 +1,24 @@
+createdb techpack - blog
+
+CREATE TABLE users(userID INT PRIMARY KEY, userName VARCHAR(50)NOT NULL, email TEXT, password VARCHAR(250), createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, profileImg VARCHAR(255), isAdmin BOOLEAN DEFAULT 0, address TEXT);
+
+CREATE TABLE category(categoryId INT PRIMARY KEY, name VARCHAR(50)NOT NULL, description TEXT, slug VARCHAR(250), createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, catImg VARCHAR(255), createdBy INT, FOREIGN KEY(createdBy)REFERENCES users(userID));
+
+CREATE TABLE posts(postId INT PRIMARY KEY, postName VARCHAR(50)NOT NULL, postSlug VARCHAR(250), postDescription VARCHAR(255), createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, postPoster VARCHAR(255), SEOTitle VARCHAR(255), SEODescription VARCHAR(255), SEOKeywords VARCHAR(255), SEOImage VARCHAR(255), categoryId INT, FOREIGN KEY(categoryId)REFERENCES category(categoryId), createdBy INT, FOREIGN KEY(createdBy)REFERENCES users(userID), updatedBy INT, FOREIGN KEY(updatedBy)REFERENCES users(userID));
+
+postId
+postSlug
+createdBy
+updatedBy
+updatedAt
+createdAt
+
+postName
+SEOTitle
+SEODescription
+SEOKeywords
+categoryId	
+
+postDescription
+postPoster
+SEOImage
