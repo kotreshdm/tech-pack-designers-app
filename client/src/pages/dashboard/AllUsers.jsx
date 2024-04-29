@@ -37,10 +37,9 @@ const AllUsers = () => {
     setLoading(false);
   };
   const columns = [
-    { Header: "User Id", accessor: "userId" },
+    { Header: "User Id", accessor: "_id" },
     { Header: "User Name", accessor: "userName" },
     { Header: "Email", accessor: "email" },
-    { Header: "Is Admin", accessor: "isAdmin" },
   ];
 
   const handleDelete = (item) => {
@@ -48,12 +47,12 @@ const AllUsers = () => {
     setSelectedData(item);
   };
   const handleDleteUser = async () => {
-    await deleteUserAPI(selectedData.userId).then((response) => {
+    await deleteUserAPI(selectedData._id).then((response) => {
       if (response.status === 200) {
         getAllUsers();
         toast.success(`${selectedData.userName} deleted successfully ! `);
       } else {
-        toast.error(response.message.sqlMessage);
+        toast.error(response.message);
       }
       setDeleteData(false);
     });
@@ -85,8 +84,7 @@ const AllUsers = () => {
         show={deleteData}
         onClose={() => setDeleteData(false)}
         popup
-        size='md'
-      >
+        size='md'>
         <DeleteModel
           handleSubmit={handleDleteUser}
           closeModel={() => setDeleteData(false)}
@@ -96,8 +94,7 @@ const AllUsers = () => {
         show={viewData}
         onClose={() => setViewData(false)}
         popup
-        className='md'
-      >
+        className='md'>
         <ViewUserModel
           selectedData={selectedData}
           closeModel={() => setViewData(false)}

@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import MyBucket from "../../utils/MyBucket";
 import Constants from "../../utils/Constants";
 import { updateProfileAPI } from "../../components/dashboard/apiConfig/Profile";
+import { toast } from "react-toastify";
 
 export default function Profile() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -43,7 +44,7 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updateStart());
+    // dispatch(updateStart());
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
     setImageFileUploadError(null);
@@ -53,7 +54,7 @@ export default function Profile() {
         const params = {
           ACL: "public-read",
           Body: imageFile,
-          Key: `profilePic/user-${currentUser.userId}`,
+          Key: `profilePic/user-${currentUser._id}`,
         };
         const result = await MyBucket.putObject(params)
           .on("httpUploadProgress", (evt) => {
@@ -69,11 +70,12 @@ export default function Profile() {
         dispatch(signInFailure("No changes made"));
         return;
       }
-      dispatch(updateStart());
+      // dispatch(updateStart());
       await updateProfileAPI({
         data: uploadData,
-        userId: currentUser.userId,
+        userId: currentUser._id,
       }).then((response) => {
+        console.log(response);
         if (response.status === 200) {
           dispatch(updateSuccess(response.data));
           setImageFile(null);
@@ -102,8 +104,7 @@ export default function Profile() {
         />
         <div
           className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
-          onClick={() => filePickerRef.current.click()}
-        >
+          onClick={() => filePickerRef.current.click()}>
           {imageFileUploadProgress && (
             <CircularProgressbar
               value={imageFileUploadProgress || 0}
@@ -163,8 +164,7 @@ export default function Profile() {
           type='submit'
           gradientDuoTone='purpleToBlue'
           outline
-          disabled={loading}
-        >
+          disabled={loading}>
           {loading ? "Loading..." : "Update"}
         </Button>
       </form>

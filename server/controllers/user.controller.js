@@ -1,4 +1,3 @@
-import db from "../utils/connection.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
@@ -6,7 +5,6 @@ import User from "../models/user.model.js";
 
 export const signup = async (req, res, next) => {
   const { userName, email, password } = req.body;
-  console.log("userName", userName);
   if (
     !email ||
     !password ||
@@ -18,14 +16,15 @@ export const signup = async (req, res, next) => {
     return next(errorHandler(200, "All fields are required!!"));
   }
   try {
-    //validate existing user
+    const existingUserName = await User.findOne({ userName });
+    if (existingUserName) {
+      return next(errorHandler(200, "UserName already exists"));
+    }
 
-    // Check if the email already exists
-    // const isEmailDuplicate = await checkEmailExists(email);
-    // console.log("isEmailDuplicate", isEmailDuplicate);
-    // if (isEmailDuplicate.length > 0) {
-    //   return next(errorHandler(200, "User already exists"));
-    // }
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return next(errorHandler(200, "Email already exists"));
+    }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
     // Insert the new
@@ -38,7 +37,7 @@ export const signup = async (req, res, next) => {
     // Omit password from the response
     const { password: pass, ...rest } = addedUser._doc;
     const token = jwt.sign(
-      { userId: addedUser.userId, isAdmin: addedUser.isAdmin },
+      { userId: rest._id, isAdmin: rest.isAdmin },
       process.env.JWT_SECRET
     );
     res
@@ -57,39 +56,33 @@ export const signin = async (req, res, next) => {
   if (!email || !password || email === "" || password === "") {
     return next(errorHandler(200, "All fields are required"));
   }
-  db.getConnection(async (err, connection) => {
-    if (err) throw err;
 
-    await checkEmailExists(email, connection)
-      .then((userData) => {
-        if (userData.length !== 1) {
-          return next(errorHandler(200, "Invalid usernme or password"));
-        } else {
-          let validUser = userData[0];
-          const validPassword = bcryptjs.compareSync(
-            password,
-            validUser.password
-          );
-          if (!validPassword) {
-            return next(errorHandler(200, "Invalid password"));
-          }
-          const token = jwt.sign(
-            { userId: validUser.userId, isAdmin: validUser.isAdmin },
-            process.env.JWT_SECRET
-          );
-          const { password: pass, ...rest } = validUser;
-          res
-            .status(200)
-            .cookie("access_token", token, {
-              httpOnly: true,
-            })
-            .json(rest);
-        }
+  try {
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return next(errorHandler(200, "Invalid usernme or password..."));
+    }
+
+    const validPassword = bcryptjs.compareSync(password, existingUser.password);
+    if (!validPassword) {
+      return next(errorHandler(200, "Invalid usernme or password.."));
+    }
+
+    const { password: pass, ...rest } = existingUser._doc;
+    const token = jwt.sign(
+      { userId: rest._id, isAdmin: rest.isAdmin },
+      process.env.JWT_SECRET
+    );
+    res
+      .status(200)
+      .cookie("access_token", token, {
+        httpOnly: true,
       })
-      .finally(() => {
-        connection.release();
-      });
-  });
+      .json(rest);
+  } catch (error) {
+    console.error("Error:", error);
+    return next(errorHandler(500, "Internal Server Error"));
+  }
 };
 export const signout = async (req, res) => {
   try {
@@ -102,118 +95,70 @@ export const signout = async (req, res) => {
   }
 };
 export const updateUser = async (req, res, next) => {
-  const { password, userName, profileImg } = req.body;
-  let hashPassword;
-  if (req.user.userId.toString() !== req.params.userId) {
-    return next(errorHandler(200, "You are not allowed to update this user!!"));
+  if (req.user.userId !== req.params.userId) {
+    return next(errorHandler(200, "You are not allowed to update this user"));
   }
-  if (password || password === "") {
-    if (password.length < 6) {
+  if (req.body.password) {
+    if (req.body.password.length < 6) {
       return next(errorHandler(200, "Password must be at least 6 characters"));
     }
-    hashPassword = bcryptjs.hashSync(password, 10);
+    req.body.password = bcryptjs.hashSync(req.body.password, 10);
   }
-
-  const updatedUser = await updateExistingUser({
-    userId: req.user.userId,
-    password: hashPassword,
-    userName,
-    profileImg,
-  });
-  const { password: pass, ...rest } = updatedUser;
-  res.status(200).json(rest);
+  if (req.body.userName) {
+    if (req.body.userName.length < 7 || req.body.userName.length > 20) {
+      return next(
+        errorHandler(200, "Username must be between 7 and 20 characters")
+      );
+    }
+    if (req.body.userName.includes(" ")) {
+      return next(errorHandler(200, "Username cannot contain spaces"));
+    }
+    if (req.body.userName !== req.body.userName.toLowerCase()) {
+      return next(errorHandler(200, "Username must be lowercase"));
+    }
+    if (!req.body.userName.match(/^[a-zA-Z0-9]+$/)) {
+      return next(
+        errorHandler(200, "Username can only contain letters and numbers")
+      );
+    }
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      {
+        $set: {
+          userName: req.body.userName,
+          email: req.body.email,
+          profilePicture: req.body.profileImg,
+          password: req.body.password,
+        },
+      },
+      { new: true }
+    );
+    const { password, ...rest } = updatedUser._doc;
+    console.log("rest...", rest);
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
 };
 export const deleteUser = async (req, res, next) => {
-  if (!req.user.isAdmin && req.user.userId.toString() !== req.params.userId) {
+  if (!req.user.isAdmin || req.user.userId === req.params.userId) {
     return next(errorHandler(200, "You are not allowed to delete this user"));
   }
-  const query = "DELETE FROM users WHERE userId = ?";
-  db.query(query, [req.params.userId], (error) => {
-    if (error) {
-      return next(errorHandler(200, error));
-    } else {
-      res.status(200).json("User has been deleted");
-    }
-  });
-};
-function checkEmailExists(email) {
-  return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM users WHERE email = ?";
-    db.query(query, [email], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        let result = Object.values(JSON.parse(JSON.stringify(results)));
-        resolve(result);
-      }
-    });
-  });
-}
-function insertUser({ userName, email, password }) {
-  return new Promise((resolve, reject) => {
-    const query =
-      "INSERT INTO users (userName, email, password) VALUES (?, ?, ?)";
-    db.query(query, [userName, email, password], (error, results) => {
-      if (error) {
-        reject(error);
-      } else {
-        const insertedUserId = results.insertId;
-        // Fetch the newly inserted user details
-        const getUserQuery = "SELECT * FROM users WHERE userId = ?";
-        db.query(
-          getUserQuery,
-          [insertedUserId],
-          (getUserError, getUserResults) => {
-            if (getUserError) {
-              reject(getUserError);
-            } else {
-              const insertedUser = getUserResults[0];
-              resolve(insertedUser);
-            }
-          }
-        );
-      }
-    });
-  });
-}
-function updateExistingUser({ userId, password, userName, profileImg }) {
-  return new Promise((resolve, reject) => {
-    const query = `
-      UPDATE users
-      SET 
-        userName = COALESCE(?, userName),
-        password = COALESCE(?, password),
-        profilePicture = COALESCE(?, profilePicture)
-      WHERE userId = ?;
-    `;
-    db.query(query, [userName, password, profileImg, userId], (error) => {
-      if (error) {
-        reject(error);
-        console.log(error);
-      } else {
-        const getUserQuery = "SELECT * FROM users WHERE userId = ?";
-        db.query(getUserQuery, [userId], (getUserError, getUserResults) => {
-          if (getUserError) {
-            reject(getUserError);
-          } else {
-            const insertedUser = getUserResults[0];
-            resolve(insertedUser);
-          }
-        });
-      }
-    });
-  });
-}
-export const getAllUser = async (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return next(errorHandler(200, "You are not allowed"));
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res.status(200).json("User has been deleted");
+  } catch (error) {
+    next(error);
   }
-  const query = "SELECT * FROM users";
-  db.query(query, (error, result) => {
-    if (error) {
-      return next(errorHandler(200, error));
-    } else {
-      res.status(200).json(result);
-    }
-  });
+};
+export const getAllUser = async (req, res, next) => {
+  try {
+    const users = await User.find().sort({ updatedAt: -1 });
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return next(errorHandler(500, "Internal Server Error"));
+  }
 };

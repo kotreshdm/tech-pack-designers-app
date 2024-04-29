@@ -38,7 +38,7 @@ const Category = () => {
     setLoading(false);
   };
   const columns = [
-    { Header: "Category Id", accessor: "categoryId" },
+    { Header: "Category Id", accessor: "_id" },
     { Header: "Category Name", accessor: "name" },
     { Header: "Description", accessor: "description" },
     { Header: "Slug", accessor: "slug" },
@@ -52,12 +52,12 @@ const Category = () => {
     setSelectedData(item);
   };
   const handleDletecategory = async () => {
-    await deleteCategoryAPI(selectedData.categoryId).then((response) => {
+    await deleteCategoryAPI(selectedData._id).then((response) => {
       if (response.status === 200) {
         getAllCategories();
-        toast.success(`${selectedData.userName} Category successfully !!! `);
+        toast.success(`${selectedData.name} Deleted`);
       } else {
-        toast.error(response.message.sqlMessage);
+        toast.error(response.message);
       }
       setDeleteData(false);
     });
@@ -96,8 +96,7 @@ const Category = () => {
         show={addData}
         onClose={() => setAddData(false)}
         popup
-        className='m-auto'
-      >
+        className='m-auto'>
         <AddCategoryModel
           closeDialog={() => setAddData(false)}
           refreshAfterSuccess={getAllCategories}
@@ -108,8 +107,7 @@ const Category = () => {
         show={deleteData}
         onClose={() => setDeleteData(false)}
         popup
-        className='m-auto'
-      >
+        className='m-auto'>
         <DeleteModel
           handleSubmit={handleDletecategory}
           closeModel={() => setDeleteData(false)}
@@ -119,8 +117,7 @@ const Category = () => {
         show={viewData}
         onClose={() => setViewData(false)}
         popup
-        className='m-auto'
-      >
+        className='m-auto'>
         <ViewCategoryModel
           selectedData={selectedData}
           closeModel={() => setViewData(false)}

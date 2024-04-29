@@ -65,10 +65,10 @@ const AddCategoryModel = ({
 
       let url = ApiConstants.category.create;
       let method = "POST";
-      if (selectedData.categoryId > -1) {
+      if (selectedData._id) {
         url = ApiConstants.category.update;
         method = "PUT";
-        data.categoryId = selectedData.categoryId;
+        data.categoryId = selectedData._id;
       }
       await addEditCategoryAPI({
         data,
@@ -122,8 +122,7 @@ const AddCategoryModel = ({
           />
           <div
             className='relative h-32 self-center cursor-pointer shadow-md overflow-hidden'
-            onClick={() => filePickerRef.current.click()}
-          >
+            onClick={() => filePickerRef.current.click()}>
             {imageFileUploadProgress && (
               <CircularProgressbar
                 value={imageFileUploadProgress || 0}
