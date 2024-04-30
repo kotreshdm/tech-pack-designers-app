@@ -4,9 +4,6 @@ import { useDashboardContext } from "../../context/DashboardContext";
 import DeleteModel from "../../components/dashboard/DeleteModel";
 import { Modal } from "flowbite-react";
 import { toast } from "react-toastify";
-import { deleteCategoryAPI } from "../../components/dashboard/apiConfig/categoriesAPIConfig";
-import ViewCategoryModel from "../../components/dashboard/ViewCategoryModel";
-import AddCategoryModel from "../../components/dashboard/AddCategoryModel";
 import {
   deletePostAPI,
   getAllPostsAPI,
@@ -49,7 +46,7 @@ const Posts = () => {
     }, 100);
   };
   const columns = [
-    { Header: "Post Id", accessor: "postId" },
+    { Header: "Post Id", accessor: "_id" },
     { Header: "Post Name", accessor: "postName" },
     { Header: "Slug", accessor: "postSlug" },
     { Header: "Cat Id", accessor: "categoryId" },
@@ -64,12 +61,12 @@ const Posts = () => {
     setSelectedData(item);
   };
   const handleDletePost = async () => {
-    await deletePostAPI(selectedData.postId).then((response) => {
+    await deletePostAPI(selectedData._id).then((response) => {
       if (response.status === 200) {
         getAllPosts();
-        toast.success(`${selectedData.postName} Post successfully !!! `);
+        toast.success(`${selectedData.postName} deleted !!! `);
       } else {
-        toast.error(response.message.sqlMessage);
+        toast.error(response.message);
       }
       setDeleteData(false);
     });

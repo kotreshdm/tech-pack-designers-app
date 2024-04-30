@@ -26,7 +26,7 @@ const EditPostDescription = ({ selectedData, backToPost, refreshAfterAdd }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = {
-      postId: selectedData.postId,
+      postId: selectedData._id,
       postDescription: quillRef.current.value.replace("<br>", "<br/>"),
     };
 
@@ -37,7 +37,7 @@ const EditPostDescription = ({ selectedData, backToPost, refreshAfterAdd }) => {
     await editPostDescriptionAPI({ data }).then((response) => {
       if (response.status === 200) {
         refreshAfterAdd();
-        toast.success(`${selectedData.postName} is post is Created`);
+        toast.success(`${selectedData.postName} Updated`);
         backToPost();
       } else {
         toast.error(response.message);
@@ -55,9 +55,7 @@ const EditPostDescription = ({ selectedData, backToPost, refreshAfterAdd }) => {
       const params = {
         ACL: "public-read",
         Body: file,
-        Key: `PostImage/${selectedData.postId
-          .toString()
-          .padStart(5, "0")}/${fileName}`,
+        Key: `PostImage/${selectedData._id.toString()}/${fileName}`,
       };
       await MyBucket.putObject(params).promise();
       let data = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;

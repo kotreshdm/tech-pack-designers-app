@@ -89,6 +89,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Object.keys(formData).length === 0) {
+      toast.error("No changes made");
+      return;
+    }
     let data = {
       ...formData,
     };
@@ -106,16 +110,16 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
 
     let url = ApiConstants.post.create;
     let method = "POST";
-    if (selectedData.postId > -1) {
+    if (selectedData._id) {
       url = ApiConstants.post.update;
       method = "PUT";
-      data.postId = selectedData.postId;
+      data.postId = selectedData._id;
     }
     if (bannerImage) {
       const params = {
         ACL: "public-read",
         Body: bannerImage,
-        Key: `PostImage/${selectedData.postId
+        Key: `PostImage/${selectedData._id
           .toString()
           .padStart(5, "0")}/bannerImage`,
       };
@@ -149,10 +153,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
       const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
       data.socialImage = downloadURL;
     }
-    if (Object.keys(data).length === 0) {
-      toast.error("No changes made");
-      return;
-    }
+
     await addPostAPI({ data, url, method }).then((response) => {
       if (response.status === 200) {
         refreshAfterAdd();
@@ -231,21 +232,23 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
             <div className=' mt-3'>
               <label value={-1}>Select category</label>
               <Select
-                onChange={(e) =>
+                onChange={(e) => {
+                  console.log(e.target.value);
                   setFormData({
                     ...formData,
                     categoryId: e.target.value,
-                  })
-                }
-                value={selectedData.categoryId}>
+                  });
+                }}
+                value={formData.categoryId || selectedData.categoryId}>
                 <option value='uncategorized'>Select a category</option>
                 {categories.map((cat) => (
-                  <option key={cat.categoryId} value={cat.categoryId}>
+                  <option key={cat._id} value={cat._id}>
                     {cat.name}
                   </option>
                 ))}
               </Select>
             </div>
+
             <div className='mt-3'>
               <label>Post Status</label>
               <Select
@@ -255,7 +258,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
                     status: e.target.value,
                   })
                 }
-                value={selectedData.status}>
+                value={formData.status || selectedData.status}>
                 <option value=''>Select a Post Status</option>
                 <option value='Draft'>Draft</option>
                 <option value='Published'>Published</option>
@@ -301,12 +304,11 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
             </div>
             <div className='col-span-3 flex justify-end'>
               <Button type='submit' color='purple' disabled={loading}>
-                {selectedData?.categoryId > -1
-                  ? "Update Post"
-                  : "Create New Post"}
+                {selectedData._id ? "Update Post" : "Create New Post"}
               </Button>
             </div>
           </div>
+          {JSON.stringify(selectedData.categoryId)}
         </form>
       </div>
     </div>
