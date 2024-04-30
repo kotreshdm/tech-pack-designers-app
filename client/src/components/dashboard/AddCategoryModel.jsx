@@ -172,9 +172,7 @@ const AddCategoryModel = ({
           <div className={`grid grid-cols-2 gap-1`}>
             <Button onClick={closeDialog}>Close</Button>
             <Button type='submit' color='purple' disabled={loading}>
-              {selectedData?.categoryId > -1
-                ? "Update Category"
-                : "Create New Category"}
+              {selectedData._id ? "Update Category" : "Create New Category"}
             </Button>
           </div>
         </form>

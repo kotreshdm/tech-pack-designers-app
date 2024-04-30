@@ -308,7 +308,6 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
               </Button>
             </div>
           </div>
-          {JSON.stringify(selectedData.categoryId)}
         </form>
       </div>
     </div>

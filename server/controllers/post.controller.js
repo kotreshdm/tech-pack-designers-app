@@ -88,7 +88,6 @@ export const update = async (req, res, next) => {
           postSlug,
           postName,
           SEOTitle,
-          postDescription,
           SEODescription,
           SEOKeywords,
           bannerImage,

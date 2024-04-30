@@ -40,7 +40,6 @@ const Category = () => {
   const columns = [
     { Header: "Category Id", accessor: "_id" },
     { Header: "Category Name", accessor: "name" },
-    { Header: "Description", accessor: "description" },
     { Header: "Slug", accessor: "slug" },
   ];
   const addCategoryButton = () => {
