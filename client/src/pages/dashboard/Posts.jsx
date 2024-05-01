@@ -46,10 +46,10 @@ const Posts = () => {
     }, 100);
   };
   const columns = [
-    { Header: "Post Id", accessor: "_id" },
+    // { Header: "Post Id", accessor: "_id" },
     { Header: "Post Name", accessor: "postName" },
-    { Header: "Slug", accessor: "postSlug" },
-    { Header: "Cat Id", accessor: "categoryId" },
+    // { Header: "Slug", accessor: "postSlug" },
+    // { Header: "Cat Id", accessor: "categoryId" },
     { Header: "Status", accessor: "status" },
   ];
   const addButton = () => {

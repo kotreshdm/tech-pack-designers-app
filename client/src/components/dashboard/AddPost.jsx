@@ -89,10 +89,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (Object.keys(formData).length === 0) {
-      toast.error("No changes made");
-      return;
-    }
+  
     let data = {
       ...formData,
     };
@@ -119,9 +116,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
       const params = {
         ACL: "public-read",
         Body: bannerImage,
-        Key: `PostImage/${selectedData._id
-          .toString()
-          .padStart(5, "0")}/bannerImage`,
+        Key: `PostImage/${selectedData._id.toString()}/bannerImage`,
       };
       const result = await MyBucket.putObject(params)
         .on("httpUploadProgress", (evt) => {
@@ -153,7 +148,10 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
       const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
       data.socialImage = downloadURL;
     }
-
+  if (Object.keys(data).length === 0) {
+    toast.error("No changes made");
+    return;
+  }
     await addPostAPI({ data, url, method }).then((response) => {
       if (response.status === 200) {
         refreshAfterAdd();
@@ -265,7 +263,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
               </Select>
             </div>
             <div className='mt-3'>
-              {selectedData.postId ? (
+              {selectedData._id ? (
                 <>
                   {" "}
                   <label>Post Banner</label>{" "}
