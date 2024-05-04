@@ -89,7 +89,7 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     let data = {
       ...formData,
     };
@@ -148,15 +148,17 @@ const AddPost = ({ selectedData, backToPost, refreshAfterAdd }) => {
       const downloadURL = `https://${Constants.S3.S3_BUCKET}.s3.${Constants.S3.REGION}.amazonaws.com/${params.Key}`;
       data.socialImage = downloadURL;
     }
-  if (Object.keys(data).length === 0) {
-    toast.error("No changes made");
-    return;
-  }
+    if (Object.keys(data).length === 0) {
+      toast.error("No changes made");
+      return;
+    }
     await addPostAPI({ data, url, method }).then((response) => {
       if (response.status === 200) {
         refreshAfterAdd();
         toast.success(
-          `${formData.postName || selectedData.postName} is post is Created`
+          `${formData.postName || selectedData.postName} is post is ${
+            selectedData._id ? "Updated " : "Created"
+          }`
         );
         backToPost();
       } else {
