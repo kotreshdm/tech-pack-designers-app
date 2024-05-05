@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import path from "path";
 //All router
 import userRoutes from "./routes/user.route.js";
 import categoryRoutes from "./routes/category.route.js";
 import postRoutes from "./routes/post.route.js";
 import publicRoutes from "./routes/public.route.js";
 
+const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
