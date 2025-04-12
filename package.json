@@ -2,33 +2,24 @@
   "name": "tech-pack-designers-app",
   "version": "1.0.0",
   "description": "",
-  "types": "module",
-  "private": true,
-  "homepage": "https://github.com/kotreshdm/tech-pack-designers-app#readme",
-  "bugs": {
-    "url": "https://github.com/kotreshdm/tech-pack-designers-app/issues"
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kotreshdm/tech-pack-designers-app.git"
   },
-  "license": "ISC",
+  "keywords": [],
   "author": "",
+  "license": "ISC",
   "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/main.js",
-    "dev": "nodemon server/main.js",
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development"
+  "bugs": {
+    "url": "https://github.com/kotreshdm/tech-pack-designers-app/issues"
   },
+  "homepage": "https://github.com/kotreshdm/tech-pack-designers-app#readme",
   "dependencies": {
-    "express": "^5.1.0",
-    "nodemon": "^3.1.9"
-  },
-  "devDependencies": {
-    "webpack": "^5.99.5",
-    "webpack-cli": "^6.0.1"
+    "express": "^5.1.0"
   }
 }
